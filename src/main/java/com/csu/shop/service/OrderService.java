@@ -7,28 +7,24 @@ import com.csu.shop.persistence.ItemMapper;
 import com.csu.shop.persistence.LineItemMapper;
 import com.csu.shop.persistence.OrderMapper;
 import com.csu.shop.persistence.SequenceMapper;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
+
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 @Service
 public class OrderService {
-    private final ItemMapper itemMapper;
-    private final OrderMapper orderMapper;
-    private final SequenceMapper sequenceMapper;
-    private final LineItemMapper lineItemMapper;
+    @Autowired
+    private ItemMapper itemMapper;
+    @Autowired
+    private OrderMapper orderMapper;
+    @Autowired
+    private SequenceMapper sequenceMapper;
+    @Autowired
+    private LineItemMapper lineItemMapper;
 
-    public OrderService(ItemMapper itemMapper, OrderMapper orderMapper, SequenceMapper sequenceMapper,
-                        LineItemMapper lineItemMapper) {
-        this.itemMapper = itemMapper;
-        this.orderMapper = orderMapper;
-        this.sequenceMapper = sequenceMapper;
-        this.lineItemMapper = lineItemMapper;
-    }
-
-    @Transactional
     public void insertOrder(Order order) {
         order.setOrderId(getNextId("ordernum"));
         order.getLineItems().forEach(lineItem -> {
@@ -48,7 +44,6 @@ public class OrderService {
         });
     }
 
-    @Transactional
     public Order getOrder(int orderId) {
         Order order = orderMapper.getOrder(orderId);
         order.setLineItems(lineItemMapper.getLineItemsByOrderId(orderId));

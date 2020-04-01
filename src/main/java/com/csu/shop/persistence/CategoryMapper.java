@@ -1,10 +1,11 @@
 package com.csu.shop.persistence;
 
 import com.csu.shop.domain.Category;
-import org.springframework.stereotype.Repository;
+import org.apache.ibatis.annotations.Mapper;
+
 import java.util.List;
 
-@Repository
+@Mapper
 public interface CategoryMapper {
     List<Category> getCategoryList();
 

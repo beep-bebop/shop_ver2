@@ -4,15 +4,23 @@ import java.math.BigDecimal;
 import java.util.*;
 
 public class Cart {
-    private final Map<String, CartItem> itemMap = Collections.synchronizedMap(new HashMap<>());
-    private final List<CartItem> itemList = new ArrayList<>();
+    private Map<String, CartItem> itemMap = Collections.synchronizedMap(new HashMap<>());
+    private List<CartItem> itemList = new ArrayList<>();
+
+    public void setItemList(List<CartItem> itemList) {
+        this.itemList = itemList;
+    }
+
+    public void setItemMap(Map<String, CartItem> map) {
+        this.itemMap = map;
+    }
+
+    public List<CartItem> getItemList() {
+        return itemList;
+    }
 
     public Iterator<CartItem> getCartItems() {
         return itemList.iterator();
-    }
-
-    public List<CartItem> getCartItemList() {
-        return itemList;
     }
 
     public int getNumberOfItems() {

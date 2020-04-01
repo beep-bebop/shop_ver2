@@ -6,22 +6,19 @@ import com.csu.shop.domain.Product;
 import com.csu.shop.persistence.CategoryMapper;
 import com.csu.shop.persistence.ItemMapper;
 import com.csu.shop.persistence.ProductMapper;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
 import java.util.ArrayList;
 import java.util.List;
 
 @Service
 public class CatalogService {
-    private final CategoryMapper categoryMapper;
-    private final ItemMapper itemMapper;
-    private final ProductMapper productMapper;
-
-    public CatalogService(CategoryMapper categoryMapper, ItemMapper itemMapper, ProductMapper productMapper) {
-        this.categoryMapper = categoryMapper;
-        this.itemMapper = itemMapper;
-        this.productMapper = productMapper;
-    }
+    @Autowired
+    private CategoryMapper categoryMapper;
+    @Autowired
+    private ItemMapper itemMapper;
+    @Autowired
+    private ProductMapper productMapper;
 
     public List<Category> getCategoryList() {
         return categoryMapper.getCategoryList();

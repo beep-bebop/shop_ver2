@@ -1,16 +1,19 @@
 package com.csu.shop;
 
+import com.csu.shop.domain.Cart;
+import com.csu.shop.service.CartService;
 import org.junit.jupiter.api.Test;
-import org.mybatis.spring.annotation.MapperScan;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
-@MapperScan("com.csu.shop.persistence")
 class ShopApplicationTests {
+    @Autowired
+    private CartService cartService;
 
     @Test
     void contextLoads() {
-
+        Cart cart = cartService.getCart("wfy");
+        System.out.print(cart.getItemList().get(0).getItemId());
     }
-
 }

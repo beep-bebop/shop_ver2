@@ -1,9 +1,9 @@
 package com.csu.shop.persistence;
 
 import com.csu.shop.domain.Account;
-import org.springframework.stereotype.Repository;
+import org.apache.ibatis.annotations.Mapper;
 
-@Repository
+@Mapper
 public interface AccountMapper {
     Account getAccountByUsername(String username);
 

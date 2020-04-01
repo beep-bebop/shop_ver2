@@ -3,14 +3,6 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.csu.shop.persistence.CartItemMapper">
-  <select id="getCartMapByUsername" resultMap="CartItem">
-    select
-      itemid as itemId,
-      quantity,
-      unitprice as total
-    from cartitem
-    where userid = #{username}
-  </select>
   <select id="getCartItemsByUsername" resultType="CartItem">
     select
       itemid as itemId,
