@@ -19,7 +19,7 @@ public class CartService {
     public Cart getCart(String username) {
         Cart cart = new Cart();
         List<CartItem> cartList = cartItemMapper.getCartItemsByUsername(username);
-        System.out.println("service"+cartList.size()+"   "+cartList.toString());
+        System.out.println("service"+cartList.size()+"   "+cartList.get(0).getItemId());
         for (CartItem cartItem:cartList) {
             cartItem.setItem(itemMapper.getItem(cartItem.getItemId()));
             cartItem.setInStock(true);

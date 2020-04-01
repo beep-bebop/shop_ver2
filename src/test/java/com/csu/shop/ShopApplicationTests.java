@@ -14,6 +14,6 @@ class ShopApplicationTests {
     @Test
     void contextLoads() {
         Cart cart = cartService.getCart("wfy");
-        System.out.print(cart.getItemList().get(0).getItemId());
+        System.out.print(cart.getItemList().get(0).getTotal()+cart.getItemList().get(0).getItemId()+cart.getItemList().get(0).getQuantity());
     }
 }

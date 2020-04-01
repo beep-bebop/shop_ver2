@@ -39,8 +39,9 @@ public class Cart {
         CartItem cartItem = itemMap.get(item.getItemId());
         if (cartItem == null) {
             cartItem = new CartItem();
+            cartItem.setItemId(item.getItemId());
             cartItem.setItem(item);
-            cartItem.setQuantity(0);
+            cartItem.setQuantity(1);
             cartItem.setInStock(isInStock);
             itemMap.put(item.getItemId(), cartItem);
             itemList.add(cartItem);
