@@ -6,7 +6,7 @@
 	<link rel="StyleSheet" href="../css/jpetstore.css" type="text/css" media="screen">
 </head>
 <body>
-	<header th:replace="common/Top"></header>
+	<header th:replace="common/Top::header"></header>
 	<div id="Main">
 		<div id="Welcome">
 			<div id="WelcomeContent">
@@ -28,7 +28,7 @@
 			</div>
 		</div>
 		<div id="inform" style="display: none">test</div>
-<!--		<script type="text/javascript" src="../../js/mouseEvent.js"></script>-->
+		<script type="text/javascript" src="../js/mouseEvent.js"></script>
 		<div id="MainImage">
 			<div id="MainImageContent">
 				<map name="estoremap">
@@ -50,7 +50,18 @@
 		</div>
 		<div id="Separator">&nbsp;</div>
 	</div>
-<!--	<footer th:repalce="common/Bottom"></footer>-->
+<!--	<div th:repalce="common/Bottom"></div>-->
+	<div id="Footer">
+
+		<div id="PoweredBy">
+			<a href="https://gitee.com/petstore_ver2/petstore">www.csu.edu.cn</a>
+		</div>
+
+		<div id="Banner">
+
+		</div>
+
+	</div>
 </body>
 </html>
 

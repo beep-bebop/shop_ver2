@@ -43,16 +43,20 @@ public class CatalogController {
         List<Item> itemList = catalogService.getItemListByProduct(productId);
         if(product != null) {
             model.addAttribute("product", product);
-            System.out.println("AAAAAAAAAA" + product.getProductId());
         }
         model.addAttribute("itemList",itemList);
         return "catalog/Product";
     }
 
+    //这里注意
     @GetMapping("/viewItem")
     public String viewItem(String itemId, Model model){
         Item item = catalogService.getItem(itemId);
+        Product product = item.getProduct();
+        processProductDescription(product);
+        System.out.println(product.getDescriptionText());
         model.addAttribute("item",item);
+        model.addAttribute("product",product);
         return "catalog/Item";
     }
 

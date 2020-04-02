@@ -58,7 +58,7 @@
 				</table>
 			</form>
 
-			<a class="Button" th:if="${cart.numberOfItems > 0}" href="#">
+			<a class="Button" th:if="${cart.numberOfItems > 0}" href="newOrderForm?itemId=${cartItem.item.itemId}">
 				Proceed to Checkout
 			</a>
 		</div>
@@ -76,6 +76,16 @@
 		</div>
 		<div id="Separator">&nbsp;</div>
 	</div>
+
+</div>
+
+<div id="PoweredBy">
+	<a href="https://gitee.com/petstore_ver2/petstore">www.csu.edu.cn</a>
+</div>
+
+<div id="Banner">
+
+</div>
 
 </div>
 <!--<footer th:replace="common/Bottom"></footer>-->

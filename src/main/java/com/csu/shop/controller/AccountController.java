@@ -65,19 +65,18 @@ public class AccountController {
             model.addAttribute("myList", myList);
             model.addAttribute("authenticated", authenticated);
 
-            return "catalog/Main";
+            return "redirect:/catalog/main";
         }
     }
 
     @GetMapping("signOff")
     public String signOff(Model model) {
-        Account loginAccount = new Account();
         List<Product> myList = null;
         boolean authenticated = false;
-        model.addAttribute("account", loginAccount);
+        model.addAttribute("account", null);
         model.addAttribute("myList", myList);
         model.addAttribute("authenticated", authenticated);
-        return "catalog/Main";
+        return "redirect:/catalog/main";
     }
 
     @GetMapping("editAccountForm")

@@ -10,6 +10,7 @@
 <!--此处声明变量-->
 <div id="Content">
 	<div id="BackLink">
+
 		<a th:href="'/catalog/viewProduct?productId='+${product.productId}">
 			Return to <label th:text="${product.productId}">Product ID</label>
 		</a>
@@ -48,6 +49,16 @@
 			</tr>
 		</table>
 	</div>
+</div>
+
+<div id="PoweredBy">
+	<a href="https://gitee.com/petstore_ver2/petstore">www.csu.edu.cn</a>
+</div>
+
+<div id="Banner">
+
+</div>
+
 </div>
 <!--<footer th:replace="common/Bottom"></footer>-->
 </body>
