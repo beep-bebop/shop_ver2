@@ -41,7 +41,10 @@ public class CatalogController {
     public String viewProduct(String productId, Model model){
         Product product = catalogService.getProduct(productId);
         List<Item> itemList = catalogService.getItemListByProduct(productId);
-        model.addAttribute("product",product);
+        if(product != null) {
+            model.addAttribute("product", product);
+            System.out.println("AAAAAAAAAA" + product.getProductId());
+        }
         model.addAttribute("itemList",itemList);
         return "catalog/Product";
     }
@@ -67,9 +70,18 @@ public class CatalogController {
         }
     }
 
-    /*
-        待完成方法
-     */
-    private void processProductDescription(List<Product> productList) {
+    //待修改方法
+    private void processProductDescription(Product product){
+        String [] temp = product.getDescription().split("\"");
+        product.setDescriptionImage(temp[1]);
+        System.out.println(temp[1]);
+        product.setDescriptionText(temp[2].substring(1));
+        System.out.println(temp[2]);
+    }
+
+    private void processProductDescription(List<Product> productList){
+        for(Product product : productList) {
+            processProductDescription(product);
+        }
     }
 }

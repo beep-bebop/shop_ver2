@@ -117,4 +117,26 @@ public class AccountController {
         model.addAttribute("CATEGORY_LIST", CATEGORY_LIST);
         return "account/NewAccountForm";
     }
+
+    @PostMapping("newAccount")
+    public String newAccount(Account newAccount, String repeatedPassword, Model model) {
+        if (newAccount.getPassword() == null || newAccount.getPassword().length() == 0 || repeatedPassword == null || repeatedPassword.length() == 0) {
+            String msg = "密码不能为空";
+            model.addAttribute("msg", msg);
+            return "account/NewAccountForm";
+        } else if (!newAccount.getPassword().equals(repeatedPassword)) {
+            String msg = "两次密码不一致";
+            model.addAttribute("msg", msg);
+            return "account/NewAccountForm";
+        } else {
+            accountService.insertAccount(newAccount);
+            newAccount = accountService.getAccount(newAccount.getUsername());
+            List<Product> myList = catalogService.getProductListByCategory(newAccount.getFavouriteCategoryId());
+            boolean authenticated = true;
+            model.addAttribute("account", newAccount);
+            model.addAttribute("myList", myList);
+            model.addAttribute("authenticated", authenticated);
+            return "redirect:/catalog/main";
+        }
+    }
 }

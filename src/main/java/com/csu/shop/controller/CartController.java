@@ -40,7 +40,7 @@ public class CartController {
             cart.addItem(item,isInStock);
         }
         model.addAttribute("cart", cart);
-        return "cart/cart";
+        return "cart/Cart";
     }
 
     @GetMapping("/removeItemFromCart")
