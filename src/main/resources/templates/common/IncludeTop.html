@@ -3,67 +3,66 @@
 <head>
 	<meta charset="UTF-8">
 	<title>Title</title>
-	<link rel="StyleSheet" href="../../static/css/jpetstore.css" type="text/css" media="screen">
+	<link rel="StyleSheet" href="css/jpetstore.css" type="text/css" media="screen">
 </head>
 <body>
 	<header th:fragment="header">
-<!--		<div id="Header">-->
+		<div id="Header">
 
-<!--			<div id="Logo">-->
-<!--				<div id="LogoContent">-->
-<!--					<a href="main"><img src="../../static/images/logo-topbar.gif" /></a>-->
-<!--				</div>-->
-<!--			</div>-->
+			<div id="Logo">
+				<div id="LogoContent">
+					<a href="main"><img src="../images/logo-topbar.gif" /></a>
+				</div>
+			</div>
 
-<!--			<div id="Menu">-->
-<!--				<div id="MenuContent">-->
-<!--					&lt;!&ndash;购物车&ndash;&gt;-->
-<!--					<a href="viewCart"><img align="middle" name="img_cart" src="../../static/images/cart.gif" /></a>-->
-<!--					<img align="middle" src="../../static/images/separator.gif" />-->
-<!--					<c:if test="${sessionScope.account == null}">-->
-<!--						<a href="signOnForm">Sign In</a>-->
-<!--					</c:if>-->
-<!--					<c:if test="${sessionScope.account != null}">-->
-<!--						<a href="signOff">Sign Out</a>-->
-<!--						&lt;!&ndash;-signOff&ndash;&gt;-->
-<!--					</c:if>-->
+			<div id="Menu">
+				<div id="MenuContent">
+					<!--购物车-->
+					<a href="viewCart"><img align="middle" name="img_cart" src="../images/cart.gif" /></a>
+					<img align="middle" src="../images/separator.gif" />
+					<c:if test="${sessionScope.account == null}">
+						<a href="signOnForm">Sign In</a>
+					</c:if>
+					<c:if test="${sessionScope.account != null}">
+						<a href="signOff">Sign Out</a>
+						<!---signOff-->
+					</c:if>
 
-<!--					&lt;!&ndash;分隔符&ndash;&gt;-->
-<!--					<c:if test="${sessionScope.account != null}">-->
-<!--						<img align="middle" src="../../static/images/separator.gif" />-->
-<!--						<a href="editAccount">My Account</a>-->
-<!--					</c:if>-->
-<!--					<img align="middle" src="../../static/images/separator.gif" />-->
-<!--					&lt;!&ndash;暂未提供&ndash;&gt;-->
-<!--					<a href="../../help.html">?</a>-->
-<!--				</div>-->
-<!--			</div>-->
+					<!--分隔符-->
+					<c:if test="${sessionScope.account != null}">
+						<img align="middle" src="../images/separator.gif" />
+						<a href="editAccount">My Account</a>
+					</c:if>
+					<img align="middle" src="../images/separator.gif" />
+					<!--暂未提供-->
+					<a href="../../help.html">?</a>
+				</div>
+			</div>
 
-<!--			<div id="Search">-->
-<!--				<div id="SearchContent">-->
-<!--					<form action="searchProduct" method="post">-->
-<!--						<input type="text" id="keyword" name="keyword" size="14"/>-->
-<!--						<div class="auto hidden" id="auto">-->
-<!--						</div>-->
-<!--						<input type="submit" name="searchProducts" value="Search" />-->
-<!--						<script src="../../js/searchProduct.js"></script>-->
-<!--					</form>-->
-<!--				</div>-->
-<!--			</div>-->
+			<div id="Search">
+				<div id="SearchContent">
+					<form action="searchProduct" method="post">
+						<input type="text" id="keyword" name="keyword" size="14"/>
+						<div class="auto hidden" id="auto">
+						</div>
+						<input type="submit" name="searchProducts" value="Search" />
+<!--						<script src="../js/searchProduct.js"></script>-->
+					</form>
+				</div>
+			</div>
 
-<!--			<div id="QuickLinks">-->
-<!--				<a href="viewCategory?categoryId=FISH"><img src="../../static/images/sm_fish.gif" /></a>-->
-<!--				<img src="../../static/images/separator.gif" />-->
-<!--				<a href="viewCategory?categoryId=DOGS"><img src="../../static/images/sm_dogs.gif" /></a>-->
-<!--				<img src="../../static/images/separator.gif" />-->
-<!--				<a href="viewCategory?categoryId=REPTILES"><img src="../../static/images/sm_reptiles.gif" /></a>-->
-<!--				<img src="../../static/images/separator.gif" />-->
-<!--				<a href="viewCategory?categoryId=CATS"><img src="../../static/images/sm_cats.gif" /></a>-->
-<!--				<img src="../../static/images/separator.gif" />-->
-<!--				<a href="viewCategory?categoryId=BIRDS"><img src="../../static/images/sm_birds.gif" /></a>-->
-<!--			</div>-->
-<!--		</div>-->
-		test
+			<div id="QuickLinks">
+				<a href="viewCategory?categoryId=FISH"><img src="../images/sm_fish.gif" /></a>
+				<img src="../images/separator.gif" />
+				<a href="viewCategory?categoryId=DOGS"><img src="../images/sm_dogs.gif" /></a>
+				<img src="../images/separator.gif" />
+				<a href="viewCategory?categoryId=REPTILES"><img src="../images/sm_reptiles.gif" /></a>
+				<img src="../images/separator.gif" />
+				<a href="viewCategory?categoryId=CATS"><img src="../images/sm_cats.gif" /></a>
+				<img src="../images/separator.gif" />
+				<a href="viewCategory?categoryId=BIRDS"><img src="../images/sm_birds.gif" /></a>
+			</div>
+		</div>
 	</header>
 
 </body>

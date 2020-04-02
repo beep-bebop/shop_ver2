@@ -6,13 +6,13 @@
 	<link rel="StyleSheet" href="../css/jpetstore.css" type="text/css" media="screen">
 </head>
 <body>
-<!--	<div th:repalce="common/IncludeTop"></div>-->
-	<div id="Welcome">
-		<div id="WelcomeContent">
-			Welcome to MyPetStore!
-		</div>
-	</div>
+	<div th:include="common/IncludeTop::header"></div>
 	<div id="Main">
+		<div id="Welcome">
+			<div id="WelcomeContent">
+				Welcome to MyPetStore!
+			</div>
+		</div>
 		<div id="Sidebar">
 			<div id="SidebarContent">
 				<a href="viewCategory?categoryId=FISH"><img src="../images/fish_icon.gif" /></a>
@@ -28,7 +28,7 @@
 			</div>
 		</div>
 		<div id="inform" style="display: none">test</div>
-		<script type="text/javascript" src="../../js/mouseEvent.js"></script>
+<!--		<script type="text/javascript" src="../../js/mouseEvent.js"></script>-->
 		<div id="MainImage">
 			<div id="MainImageContent">
 				<map name="estoremap">
