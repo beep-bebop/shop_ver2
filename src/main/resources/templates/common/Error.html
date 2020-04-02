@@ -1,5 +1,15 @@
-<%@ include file="../common/IncludeTop.jsp"%>
-
-<stripes:messages />
-
-<%@ include file="../common/IncludeBottom.jsp"%>
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="StyleSheet" href="../css/jpetstore.css" type="text/css" media="screen"/>
+</head>
+<body>
+<header th:replace="common/Top"></header>
+<div id="Content">
+    <p th:text="${msg}">Error Message</p>
+</div>
+<!--<footer th:replace="common/Bottom"></footer>-->
+</body>
+</html>

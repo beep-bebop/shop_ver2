@@ -1,8 +1,11 @@
 package com.csu.shop.domain;
 
+import org.springframework.stereotype.Component;
+
 import java.math.BigDecimal;
 import java.util.*;
 
+@Component("cart")
 public class Cart {
     private Map<String, CartItem> itemMap = Collections.synchronizedMap(new HashMap<>());
     private List<CartItem> itemList = new ArrayList<>();
