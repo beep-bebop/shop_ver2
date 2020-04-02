@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:c="http://www.w3.org/1999/XSL/Transform" xmlns="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="StyleSheet" href="../../static/css/jpetstore.css" type="text/css" media="screen">
+</head>
+<body>
+    <header th:fragment="header">
+        <div id="Footer">
+
+        <div id="PoweredBy">&nbsp;<a href="http://www.mybatis.org">www.mybatis.org</a>
+        </div>
+
+        <div id="Banner"><c:if test="${sessionScope.accountBean != null }">
+            <c:if test="${sessionScope.accountBean.authenticated}">
+                <c:if test="${sessionScope.accountBean.account.bannerOption}">
+                    ${sessionScope.accountBean.account.bannerName}
+                </c:if>
+            </c:if>
+        </c:if></div>
+
+    </div>
+    </header>
+
+</body>
+</html>
