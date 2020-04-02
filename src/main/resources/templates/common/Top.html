@@ -11,7 +11,7 @@
 
 			<div id="Logo">
 				<div id="LogoContent">
-					<a href="main"><img src="../images/logo-topbar.gif" /></a>
+					<a href="/catalog/main"><img src="../images/logo-topbar.gif" /></a>
 				</div>
 			</div>
 
@@ -21,17 +21,17 @@
 					<a href="viewCart"><img align="middle" name="img_cart" src="../images/cart.gif" /></a>
 					<img align="middle" src="../images/separator.gif" />
 					<c:if test="${sessionScope.account == null}">
-						<a href="signOnForm">Sign In</a>
+						<a href="/account/signOnForm">Sign In</a>
 					</c:if>
 					<c:if test="${sessionScope.account != null}">
-						<a href="signOff">Sign Out</a>
+						<a href="/account/signOff">Sign Out</a>
 						<!---signOff-->
 					</c:if>
 
 					<!--分隔符-->
 					<c:if test="${sessionScope.account != null}">
 						<img align="middle" src="../images/separator.gif" />
-						<a href="editAccount">My Account</a>
+						<a href="/account/editAccountForm">My Account</a>
 					</c:if>
 					<img align="middle" src="../images/separator.gif" />
 					<!--暂未提供-->
@@ -40,7 +40,7 @@
 			</div>
 			<div id="Search">
 				<div id="SearchContent" >
-					<form action="searchProduct" method="post" >
+					<form action="/catalog/serchProducts" method="post" >
 						<input type="text" name="keyword" size="14" class="keyword"  >
 						<input type="submit" name="searchProducts" value="Search" />
 						<div id="context1" style="background-color:white; border: 1px solid dodgerblue;position: absolute;display:none;margin-left: 8.5%; margin-top: 0%;width: auto;height:auto" >

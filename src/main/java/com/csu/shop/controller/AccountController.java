@@ -45,7 +45,7 @@ public class AccountController {
 
     @GetMapping("/signOnForm")
     public String signOnForm(){
-        return "account/signon";
+        return "account/SignOnForm";
     }
 
     @PostMapping("/signOn")
@@ -55,7 +55,7 @@ public class AccountController {
         if(account == null){
             String msg = "Invalid username or password.  Signon failed.";
             model.addAttribute("msg", msg);
-            return "account/signOn";
+            return "account/SignOnForm";
         }
         else{
             account.setPassword(null);
@@ -65,19 +65,19 @@ public class AccountController {
             model.addAttribute("myList", myList);
             model.addAttribute("authenticated", authenticated);
 
-            return "catalog/main";
+            return "catalog/Main";
         }
     }
 
-    @GetMapping("signoff")
-    public String signoff(Model model) {
+    @GetMapping("signOff")
+    public String signOff(Model model) {
         Account loginAccount = new Account();
         List<Product> myList = null;
         boolean authenticated = false;
         model.addAttribute("account", loginAccount);
         model.addAttribute("myList", myList);
         model.addAttribute("authenticated", authenticated);
-        return "catalog/main";
+        return "catalog/Main";
     }
 
     @GetMapping("editAccountForm")
@@ -85,7 +85,7 @@ public class AccountController {
         model.addAttribute("account", account);
         model.addAttribute("LANGUAGE_LIST", LANGUAGE_LIST);
         model.addAttribute("CATEGORY_LIST", CATEGORY_LIST);
-        return "account/edit_account";
+        return "account/EditAccountForm";
     }
 
     @PostMapping("editAccount")
@@ -93,11 +93,11 @@ public class AccountController {
         if (account.getPassword() == null || account.getPassword().length() == 0 || repeatedPassword == null || repeatedPassword.length() == 0) {
             String msg = "密码不能为空";
             model.addAttribute("msg", msg);
-            return "account/edit_account";
+            return "account/EditAccountForm";
         } else if (!account.getPassword().equals(repeatedPassword)) {
             String msg = "两次密码不一致";
             model.addAttribute("msg", msg);
-            return "account/edit_account";
+            return "account/EditAccountForm";
         } else {
             accountService.updateAccount(account);
             account = accountService.getAccount(account.getUsername());
@@ -106,7 +106,7 @@ public class AccountController {
             model.addAttribute("account", account);
             model.addAttribute("myList", myList);
             model.addAttribute("authenticated", authenticated);
-            return "redirect:/catalog/index";
+            return "redirect:/catalog/main";
         }
     }
 
@@ -115,6 +115,6 @@ public class AccountController {
         model.addAttribute("newAccount",new Account());
         model.addAttribute("LANGUAGE_LIST", LANGUAGE_LIST);
         model.addAttribute("CATEGORY_LIST", CATEGORY_LIST);
-        return "account/new_account";
+        return "account/NewAccountForm";
     }
 }

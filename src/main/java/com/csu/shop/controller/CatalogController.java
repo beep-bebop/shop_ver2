@@ -22,7 +22,7 @@ public class CatalogController {
 
     @GetMapping("/main")
     public String view(){
-        return "catalog/main";
+        return "catalog/Main";
     }
 
     @GetMapping("/viewCategory")
@@ -32,9 +32,9 @@ public class CatalogController {
             List<Product> productList = catalogService.getProductListByCategory(categoryId);
             model.addAttribute("category",category);
             model.addAttribute("productList",productList);
-            return "catalog/category";
+            return "catalog/Category";
         }
-        return "catalog/main";
+        return "catalog/Main";
     }
 
     @GetMapping("/viewProduct")
@@ -43,14 +43,14 @@ public class CatalogController {
         List<Item> itemList = catalogService.getItemListByProduct(productId);
         model.addAttribute("product",product);
         model.addAttribute("itemList",itemList);
-        return "catalog/product";
+        return "catalog/Product";
     }
 
     @GetMapping("/viewItem")
     public String viewItem(String itemId, Model model){
         Item item = catalogService.getItem(itemId);
         model.addAttribute("item",item);
-        return "catalog/item";
+        return "catalog/Item";
     }
 
     @PostMapping("serchProducts")
@@ -58,12 +58,12 @@ public class CatalogController {
         if(keyword == null || keyword.length() < 1){
             String msg = "Please enter a keyword to search for, then press the search button.";
             model.addAttribute("msg",msg);
-            return "common/error";
+            return "common/Error";
         }else {
             List<Product> productList = catalogService.searchProductList(keyword.toLowerCase());
             processProductDescription(productList);
             model.addAttribute("productList",productList);
-            return "catalog/search_products";
+            return "catalog/SearchProducts";
         }
     }
 
