@@ -1,173 +1,161 @@
-<%--
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+	<meta charset="UTF-8">
+	<title>Title</title>
+	<link rel="StyleSheet" href="../css/jpetstore.css" type="text/css" media="screen"/>
+</head>
+<body>
 
-       Copyright 2010-2019 the original author or authors.
+<header th:replace="common/top"></header>
 
-       Licensed under the Apache License, Version 2.0 (the "License");
-       you may not use this file except in compliance with the License.
-       You may obtain a copy of the License at
+<div id="Content">
+	<div id="BackLink">
+		<a href="main"> Return to Main Menu </a>
+	</div>
 
-          http://www.apache.org/licenses/LICENSE-2.0
+	<div id="Catalog">
 
-       Unless required by applicable law or agreed to in writing, software
-       distributed under the License is distributed on an "AS IS" BASIS,
-       WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-       See the License for the specific language governing permissions and
-       limitations under the License.
-
---%>
-<%@ include file="../common/IncludeTop.jsp"%>
-
-<div id="BackLink"><stripes:link
-	beanclass="org.mybatis.jpetstore.web.actions.CatalogActionBean">
-	Return to Main Menu</stripes:link></div>
-
-<div id="Catalog">
-
-<table>
-	<tr>
-		<th align="center" colspan="2">Order #${actionBean.order.orderId}
-		<fmt:formatDate value="${actionBean.order.orderDate}"
-			pattern="yyyy/MM/dd hh:mm:ss" /></th>
-	</tr>
-	<tr>
-		<th colspan="2">Payment Details</th>
-	</tr>
-	<tr>
-		<td>Card Type:</td>
-		<td><c:out value="${actionBean.order.cardType}" /></td>
-	</tr>
-	<tr>
-		<td>Card Number:</td>
-		<td><c:out value="${actionBean.order.creditCard}" /> * Fake
-		number!</td>
-	</tr>
-	<tr>
-		<td>Expiry Date (MM/YYYY):</td>
-		<td><c:out value="${actionBean.order.expiryDate}" /></td>
-	</tr>
-	<tr>
-		<th colspan="2">Billing Address</th>
-	</tr>
-	<tr>
-		<td>First name:</td>
-		<td><c:out value="${actionBean.order.billToFirstName}" /></td>
-	</tr>
-	<tr>
-		<td>Last name:</td>
-		<td><c:out value="${actionBean.order.billToLastName}" /></td>
-	</tr>
-	<tr>
-		<td>Address 1:</td>
-		<td><c:out value="${actionBean.order.billAddress1}" /></td>
-	</tr>
-	<tr>
-		<td>Address 2:</td>
-		<td><c:out value="${actionBean.order.billAddress2}" /></td>
-	</tr>
-	<tr>
-		<td>City:</td>
-		<td><c:out value="${actionBean.order.billCity}" /></td>
-	</tr>
-	<tr>
-		<td>State:</td>
-		<td><c:out value="${actionBean.order.billState}" /></td>
-	</tr>
-	<tr>
-		<td>Zip:</td>
-		<td><c:out value="${actionBean.order.billZip}" /></td>
-	</tr>
-	<tr>
-		<td>Country:</td>
-		<td><c:out value="${actionBean.order.billCountry}" /></td>
-	</tr>
-	<tr>
-		<th colspan="2">Shipping Address</th>
-	</tr>
-	<tr>
-		<td>First name:</td>
-		<td><c:out value="${actionBean.order.shipToFirstName}" /></td>
-	</tr>
-	<tr>
-		<td>Last name:</td>
-		<td><c:out value="${actionBean.order.shipToLastName}" /></td>
-	</tr>
-	<tr>
-		<td>Address 1:</td>
-		<td><c:out value="${actionBean.order.shipAddress1}" /></td>
-	</tr>
-	<tr>
-		<td>Address 2:</td>
-		<td><c:out value="${actionBean.order.shipAddress2}" /></td>
-	</tr>
-	<tr>
-		<td>City:</td>
-		<td><c:out value="${actionBean.order.shipCity}" /></td>
-	</tr>
-	<tr>
-		<td>State:</td>
-		<td><c:out value="${actionBean.order.shipState}" /></td>
-	</tr>
-	<tr>
-		<td>Zip:</td>
-		<td><c:out value="${actionBean.order.shipZip}" /></td>
-	</tr>
-	<tr>
-		<td>Country:</td>
-		<td><c:out value="${actionBean.order.shipCountry}" /></td>
-	</tr>
-	<tr>
-		<td>Courier:</td>
-		<td><c:out value="${actionBean.order.courier}" /></td>
-	</tr>
-	<tr>
-		<td colspan="2">Status: <c:out value="${actionBean.order.status}" /></td>
-	</tr>
-	<tr>
-		<td colspan="2">
 		<table>
 			<tr>
-				<th>Item ID</th>
-				<th>Description</th>
-				<th>Quantity</th>
-				<th>Price</th>
-				<th>Total Cost</th>
+				<th align="center" colspan="2" th:text="${order.orderId}">Order orderId
+					<span th:text="${#dates.format(order.orderDate,‘yyyy-MM-dd HH:mm:ss‘)}">111</span>
+				</th>
 			</tr>
-			<c:forEach var="lineItem" items="${actionBean.order.lineItems}">
-				<tr>
-					<td><stripes:link
-						beanclass="org.mybatis.jpetstore.web.actions.CatalogActionBean"
-						event="viewItem">
-						<stripes:param name="itemId" value="${lineItem.item.itemId}" />
-						${lineItem.item.itemId}
-					</stripes:link></td>
-					<td><c:if test="${lineItem.item != null}">
-						${lineItem.item.attribute1}
-						${lineItem.item.attribute2}
-						${lineItem.item.attribute3}
-						${lineItem.item.attribute4}
-						${lineItem.item.attribute5}
-						${lineItem.item.product.name}
-					</c:if> <c:if test="${lineItem.item == null}">
-						<i>{description unavailable}</i>
-					</c:if></td>
-
-					<td>${lineItem.quantity}</td>
-					<td>$<fmt:formatNumber value="${lineItem.unitPrice}"
-						pattern="#,##0.00" /></td>
-					<td>$<fmt:formatNumber value="${lineItem.total}"
-						pattern="#,##0.00" /></td>
-				</tr>
-			</c:forEach>
 			<tr>
-				<th colspan="5">Total: $<fmt:formatNumber
-					value="${actionBean.order.totalPrice}" pattern="#,##0.00" /></th>
+				<th colspan="2">Payment Details</th>
 			</tr>
-		</table>
-		</td>
-	</tr>
+			<tr>
+				<td>Card Type:</td>
+				<td th:test="${order.cardType}"></td>
+			</tr>
+			<tr>
+				<td>Card Number:</td>
+				<td th:test="${order.creditCard}+'* Fake number!'"> * Fake
+					number!</td>
+			</tr>
+			<tr>
+				<td>Expiry Date (MM/YYYY):</td>
+				<td th:test="${order.expiryDate}">expiryDate</td>
+			</tr>
+			<tr>
+				<th colspan="2">Billing Address</th>
+			</tr>
+			<tr>
+				<td>First name:</td>
+				<td th:test="${order.billToFirstName}">billToFirstName</td>
+			</tr>
+			<tr>
+				<td>Last name:</td>
+				<td th:test="${order.billToLastName}">billToLastName</td>
+			</tr>
+			<tr>
+				<td>Address 1:</td>
+				<td th:test="${order.billAddress1}">billAddress1</td>
+			</tr>
+			<tr>
+				<td>Address 2:</td>
+				<td th:test="${order.billAddress2}">billAddress2</td>
+			</tr>
+			<tr>
+				<td>City:</td>
+				<td th:test="${order.billCity}">billCity</td>
+			</tr>
+			<tr>
+				<td>State:</td>
+				<td th:test="${order.billState}">billState</td>
+			</tr>
+			<tr>
+				<td>Zip:</td>
+				<td th:test="${order.billZip}">billZip</td>
+			</tr>
+			<tr>
+				<td>Country:</td>
+				<td th:test="${order.billCountry}">billCountry</td>
+			</tr>
+			<tr>
+				<th colspan="2">Shipping Address</th>
+			</tr>
+			<tr>
+				<td>First name:</td>
+				<td th:test="${order.shipToFirstName}">shipToFirstName</td>
+			</tr>
+			<tr>
+				<td>Last name:</td>
+				<td th:test="${order.shipToLastName}">shipToLastName</td>
+			</tr>
+			<tr>
+				<td>Address 1:</td>
+				<td th:test="${order.shipAddress1}">shipAddress1</td>
+			</tr>
+			<tr>
+				<td>Address 2:</td>
+				<td th:test="${order.shipAddress2}">shipAddress2</td>
+			</tr>
+			<tr>
+				<td>City:</td>
+				<td th:test="${order.shipCity}">shipCity</td>
+			</tr>
+			<tr>
+				<td>State:</td>
+				<td th:test="${order.shipState}">shipState</td>
+			</tr>
+			<tr>
+				<td>Zip:</td>
+				<td th:test="${order.shipZip}">shipZip</td>
+			</tr>
+			<tr>
+				<td>Country:</td>
+				<td th:test="${order.shipCountry}">shipCountry</td>
+			</tr>
+			<tr>
+				<td>Courier:</td>
+				<td th:test="${order.courier}">courier</td>
+			</tr>
+			<tr>
+				<td colspan="2" th:test="'Status:'+${order.status}">status </td>
+			</tr>
+			<tr>
+				<td colspan="2">
+					<table>
+						<tr>
+							<th>Item ID</th>
+							<th>Description</th>
+							<th>Quantity</th>
+							<th>Price</th>
+							<th>Total Cost</th>
+						</tr>
+						<tr th:each="lineItem:${order.lineItems}">
+							<td><a th:href="#">lineItem.item.itemId</a></td>
 
-</table>
+							<td th:if="(${lineItem.item != null})" th:text=" ${lineItem.item.attribute1}+
+                                ${lineItem.item.product.name}">attribute1</td>
+							<td th:if="(${lineItem.item == null})" th:text="{description unavailable}">
+								description unavailable</td>
+
+							<td th:text="${lineItem.quantity}">lineItem.quantity</td>
+							<td th:text="'$'+${#numbers.formatDecimal(lineItem.unitPrice,1,2)}">unitPrice
+							</td>
+							<td th:text="'$'+${#numbers.formatDecimal(lineItem.total,1,2)}">total
+							</td>
+						</tr>
+						<tr>
+							<td th:text="'$'+${#numbers.formatDecimal(lineItem.total,1,2)}">total
+							</td>
+							<th colspan="5" th:text="'Total:'+'$'+${#numbers.formatDecimal(order.totalPrice,1,2)}">
+								order.totalPrice</th>
+						</tr>
+					</table>
+				</td>
+			</tr>
+
+		</table>
+
+	</div>
 
 </div>
 
-<%@ include file="../common/IncludeBottom.jsp"%>
+<footer th:replace="common/bottom"></footer>
+
+</body>
+</html>
