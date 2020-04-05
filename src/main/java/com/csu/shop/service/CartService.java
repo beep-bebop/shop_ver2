@@ -16,6 +16,14 @@ public class CartService {
     @Autowired
     private ItemMapper itemMapper;
 
+    public void insertCart(Cart cart, String username){
+        deleteCart(username);
+        List<CartItem> itemList = cart.getItemList();
+        for (CartItem cartItem:itemList) {
+            cartItemMapper.insertCartItem(cartItem, username);
+        }
+    }
+
     public Cart getCart(String username) {
         Cart cart = new Cart();
         List<CartItem> cartList = cartItemMapper.getCartItemsByUsername(username);

@@ -9,6 +9,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.SessionAttribute;
 import org.springframework.web.bind.annotation.SessionAttributes;
 
 import javax.servlet.http.HttpServletRequest;
@@ -20,7 +21,7 @@ import java.util.List;
 
 @Controller
 @RequestMapping("/order")
-@SessionAttributes({"order","shippingAddressRequired","confirmed","orderList"})
+@SessionAttributes({"account","order","shippingAddressRequired","confirmed","orderList"})
 public class OrderController {
     @Autowired
     private OrderService orderService;
@@ -37,10 +38,9 @@ public class OrderController {
         CARD_TYPE_LIST = Collections.unmodifiableList(cardList);
     }
 
-    @GetMapping("listOrders")
-    public String listOrders(HttpServletRequest request, Model model){
+    @GetMapping("/listOrders")
+    public String listOrders(Model model, @SessionAttribute("account") Account account){
 
-        Account account = (Account) request.getSession().getAttribute("account");
         List<Order> orderList = orderService.getOrdersByUsername(account.getUsername());
 
 
@@ -50,23 +50,20 @@ public class OrderController {
         return "/order/ListOrders";
     }
 
-    @GetMapping("newOrderForm")
-    public String newOrderForm(HttpServletRequest request,Model model){
-        AccountController accountController = (AccountController) request.getSession().getAttribute(
-                "/controller/Account.controller");
-        CartController cartController = (CartController) request.getSession().getAttribute(
-                "/controller/Cart.controller");
-
+    @GetMapping("/newOrderForm")
+    public String newOrderForm(@SessionAttribute("account") Account account,@SessionAttribute("cart") Cart cart,Model model){
         order=new Order();
         boolean shippingAddressRequired = false;
         boolean confirmed = false;
         List<Order> orderList =null;
-        if(accountController == null || accountController.getAccount()==null){
+        System.out.println("AAAAA"+account.getUsername());
+        if(account==null){
             String msg="You must sign on before attempting to check out.  Please sign on and try checking out again.";
+            System.out.println(msg);
             model.addAttribute("msg", msg);
-            return "redirect:/account/SignOnForm";
-        }else if(cartController!=null){
-            order.initOrder(accountController.getAccount(),cartController.getCart());
+            return "/catalog/Main";
+        }else if(cart!=null){
+            order.initOrder(account,cart);
             model.addAttribute("order",order);
             model.addAttribute("shippingAddressRequired",shippingAddressRequired);
             model.addAttribute("confirmed",confirmed);
@@ -79,7 +76,7 @@ public class OrderController {
         }
     }
 
-    @GetMapping("newOrder")
+    @GetMapping("/newOrder")
     public String newOrder(HttpServletRequest request,Model model){
         boolean shippingAddressRequired= (boolean) request.getSession().getAttribute("shippingAddressRequired");
         if(shippingAddressRequired){
@@ -106,7 +103,7 @@ public class OrderController {
         }
     }
 
-    @GetMapping("viewOrder")
+    @GetMapping("/viewOrder")
     public String viewOrder(HttpServletRequest request,Model model){
         HttpSession session = request.getSession();
 

@@ -58,7 +58,7 @@
 				</table>
 			</form>
 
-			<a class="Button" th:if="${cart.numberOfItems > 0}" href="newOrderForm?itemId=${cartItem.item.itemId}">
+			<a class="Button" th:if="${cart.numberOfItems > 0}" th:href="'/order/newOrderForm'">
 				Proceed to Checkout
 			</a>
 		</div>

@@ -18,18 +18,18 @@
 			<div id="Menu">
 				<div id="MenuContent">
 					<!--购物车-->
-					<a href="viewCart"><img align="middle" name="img_cart" src="../images/cart.gif" /></a>
+					<a href="/cart/viewCart"><img align="middle" name="img_cart" src="../images/cart.gif" /></a>
 					<img align="middle" src="../images/separator.gif" />
-					<span th:if="${account == null}">
+					<span th:if="${session.account == null}">
 						<a href="/account/signOnForm">Sign In</a>
 					</span>
-					<span th:if="${account != null}">
+					<span th:if="${session.account != null}">
 						<a href="/account/signOff">Sign Out</a>
 						<!---signOff-->
 					</span>
 
 					<!--分隔符-->
-					<span th:if="${account != null}">
+					<span th:if="${session.account != null}">
 						<img align="middle" src="../images/separator.gif" />
 						<a href="/account/editAccountForm">My Account</a>
 					</span>

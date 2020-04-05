@@ -53,7 +53,7 @@ public class AccountController {
 
     @PostMapping("/signOn")
     public String signOn(String username, String password, Model model){
-        Account account = accountService.getAccount(username,password);
+        account = accountService.getAccount(username,password);
 
         if(account == null){
             String msg = "Invalid username or password.  Signon failed.";
