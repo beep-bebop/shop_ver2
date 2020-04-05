@@ -1,15 +1,14 @@
 package com.csu.shop.controller;
 
-import com.csu.shop.domain.Item;
+import com.csu.shop.domain.Account;
 import com.csu.shop.domain.Category;
+import com.csu.shop.domain.Item;
 import com.csu.shop.domain.Product;
 import com.csu.shop.service.CatalogService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -27,6 +26,11 @@ public class CatalogController {
 
     @GetMapping("/viewCategory")
     public String viewCategory(String categoryId, Model model){
+        Account account = (Account) model.getAttribute("account");
+        if(account != null)
+            System.out.println("CCCCCCCC"+account.getUsername());
+        else
+            System.out.println("CCCCCCCC");
         if(categoryId != null){
             Category category = catalogService.getCategory(categoryId);
             List<Product> productList = catalogService.getProductListByCategory(categoryId);
@@ -46,6 +50,13 @@ public class CatalogController {
         }
         model.addAttribute("itemList",itemList);
         return "catalog/Product";
+    }
+
+    @ResponseBody
+    @RequestMapping(value = "/searchProducts",method= RequestMethod.GET, produces= {"application/xml;charset=UTF-8"})
+    public List<Product> autoSearch(String keyword){
+        List<Product> products = catalogService.searchProductList(keyword);
+        return products;
     }
 
     //这里注意

@@ -27,7 +27,7 @@ public class CartController {
     @GetMapping("/viewCart")
     public String viewCart(Model model){
         model.addAttribute("cart",cart);
-        return "cart/cart";
+        return "cart/Cart";
     }
 
     @GetMapping("/addItemToCart")
@@ -49,10 +49,10 @@ public class CartController {
         Item item = cart.removeItemById(workingItem);
         if(item == null){
             model.addAttribute("message","Attempted to remove null CartItem from Cart");
-            return "common/error";
+            return "common/Error";
         }
         else{
-            return "cart/cart";
+            return "cart/Cart";
         }
     }
 
@@ -77,5 +77,9 @@ public class CartController {
         }
         model.addAttribute("cart", cart);
         return "cart/Cart";
+    }
+
+    public Cart getCart() {
+        return cart;
     }
 }

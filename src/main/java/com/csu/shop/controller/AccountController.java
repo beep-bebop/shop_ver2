@@ -24,6 +24,9 @@ public class AccountController {
     @Autowired
     private CatalogService catalogService;
 
+    @Autowired
+    Account account;
+
     private static final List<String> LANGUAGE_LIST;
     private static final List<String> CATEGORY_LIST;
 
@@ -137,5 +140,13 @@ public class AccountController {
             model.addAttribute("authenticated", authenticated);
             return "redirect:/catalog/main";
         }
+    }
+
+    public Account getAccount() {
+        return account;
+    }
+
+    public String getUsername() {
+        return account.getUsername();
     }
 }

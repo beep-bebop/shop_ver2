@@ -1,7 +1,6 @@
 package com.csu.shop.domain;
 
 import org.springframework.stereotype.Component;
-
 import java.math.BigDecimal;
 import java.util.*;
 

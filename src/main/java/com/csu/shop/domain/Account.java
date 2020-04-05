@@ -1,5 +1,8 @@
 package com.csu.shop.domain;
 
+import org.springframework.stereotype.Component;
+
+@Component("account")
 public class Account {
     private String username;
     private String password;

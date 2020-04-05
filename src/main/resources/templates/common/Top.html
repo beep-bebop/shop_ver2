@@ -38,11 +38,13 @@
 					<a href="../../help.html">?</a>
 				</div>
 			</div>
+			<script th:src="@{../js/jquery-3.4.1.js}"></script>
 			<div id="Search">
 				<div id="SearchContent" >
 					<form action="/catalog/serchProducts" method="post" >
 						<input type="text" name="keyword" size="14" class="keyword"  >
 						<input type="submit" name="searchProducts" value="Search" />
+						<script th:src="@{../js/searchProduct.js"></script>
 						<div id="context1" style="background-color:white; border: 1px solid dodgerblue;position: absolute;display:none;margin-left: 8.5%; margin-top: 0%;width: auto;height:auto" >
 						</div>
 					</form>
@@ -61,15 +63,15 @@
 <!--			</div>-->
 
 			<div id="QuickLinks">
-				<a href="viewCategory?categoryId=FISH"><img src="../images/sm_fish.gif" /></a>
+				<a href="/catalog/viewCategory?categoryId=FISH"><img src="../images/sm_fish.gif" /></a>
 				<img src="../images/separator.gif" />
-				<a href="viewCategory?categoryId=DOGS"><img src="../images/sm_dogs.gif" /></a>
+				<a href="/catalog/viewCategory?categoryId=DOGS"><img src="../images/sm_dogs.gif" /></a>
 				<img src="../images/separator.gif" />
-				<a href="viewCategory?categoryId=REPTILES"><img src="../images/sm_reptiles.gif" /></a>
+				<a href="/catalog/viewCategory?categoryId=REPTILES"><img src="../images/sm_reptiles.gif" /></a>
 				<img src="../images/separator.gif" />
-				<a href="viewCategory?categoryId=CATS"><img src="../images/sm_cats.gif" /></a>
+				<a href="/catalog/viewCategory?categoryId=CATS"><img src="../images/sm_cats.gif" /></a>
 				<img src="../images/separator.gif" />
-				<a href="viewCategory?categoryId=BIRDS"><img src="../images/sm_birds.gif" /></a>
+				<a href="/catalog/viewCategory?categoryId=BIRDS"><img src="../images/sm_birds.gif" /></a>
 			</div>
 		</div>
 	</header>

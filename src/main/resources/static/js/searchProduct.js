@@ -177,7 +177,6 @@ function processResponse() {
             var resp = xmlHttpRequest.responseText;
             //var resp2 = resp.split(',');
 
-            //var array = ['七里香','b0','b12','b22','b3','b4','b5','b6','如果爱','b7','b8','b2','abd','ab','acd','accd','abd','qq音乐','b1','cd','ccd','cbcv','小王子','cxf','b0'];
             var array = resp.split(",");
             var autoComplete = new AutoComplete("keyword","auto",array);
             document.getElementById("keyword").onkeyup = function(event){

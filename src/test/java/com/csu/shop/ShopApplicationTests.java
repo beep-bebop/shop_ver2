@@ -13,7 +13,6 @@ class ShopApplicationTests {
     private CartService cartService;
     @Autowired
     private CatalogService catalogService;
-
     @Test
     void contextLoads() {
         Product product = catalogService.getProduct("AV-SB-02");
