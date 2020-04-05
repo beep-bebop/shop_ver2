@@ -11,7 +11,7 @@
 
 <div id="Content">
 	<div id="BackLink">
-		<a href="main"> Return to Main Menu </a>
+		<a href="/catalog/main"> Return to Main Menu </a>
 	</div>
 
 	<div id="Catalog">
@@ -19,7 +19,7 @@
 		<table>
 			<tr>
 				<th align="center" colspan="2" th:text="${order.orderId}">Order orderId
-					<span th:text="${#dates.format(order.orderDate,‘yyyy-MM-dd HH:mm:ss‘)}">111</span>
+					<span th:text="${#dates.format(order.orderDate,'yyyy-MM-dd HH:mm:ss')}">111</span>
 				</th>
 			</tr>
 			<tr>
@@ -126,7 +126,7 @@
 							<th>Total Cost</th>
 						</tr>
 						<tr th:each="lineItem:${order.lineItems}">
-							<td><a th:href="#">lineItem.item.itemId</a></td>
+							<td><a th:text=" ${lineItem.item.itemId}"></a></td>
 
 							<td th:if="(${lineItem.item != null})" th:text=" ${lineItem.item.attribute1}+
                                 ${lineItem.item.product.name}">attribute1</td>
@@ -139,12 +139,12 @@
 							<td th:text="'$'+${#numbers.formatDecimal(lineItem.total,1,2)}">total
 							</td>
 						</tr>
-						<tr>
-							<td th:text="'$'+${#numbers.formatDecimal(lineItem.total,1,2)}">total
-							</td>
-							<th colspan="5" th:text="'Total:'+'$'+${#numbers.formatDecimal(order.totalPrice,1,2)}">
-								order.totalPrice</th>
-						</tr>
+<!--						<tr th:each="lineItem:${order.lineItems}">-->
+<!--							<td th:text="'$'+${#numbers.formatDecimal(lineItem.total,1,2)}">total-->
+<!--							</td>-->
+<!--						</tr>-->
+						<th colspan="5" th:text="'Total:'+'$'+${#numbers.formatDecimal(order.totalPrice,1,2)}">
+							order.totalPrice</th>
 					</table>
 				</td>
 			</tr>

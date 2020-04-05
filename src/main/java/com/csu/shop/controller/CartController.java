@@ -11,12 +11,11 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
-import javax.servlet.http.HttpServletRequest;
 import java.util.Iterator;
 
 @Controller
 @RequestMapping("/cart")
-@SessionAttributes({"account"})
+@SessionAttributes({"account", "itemId"})
 public class CartController {
 
     @Autowired
@@ -66,7 +65,7 @@ public class CartController {
     }
 
     @PostMapping("/updateCartQuantities")
-    public String updateCartQuantities(HttpServletRequest request, Model model){
+    public String updateCartQuantities(@SessionAttribute("account") Account account, @SessionAttribute("itemId") int id, Model model){
         Iterator<CartItem> cartItemIterator = cart.getAllCartItems();
 
         while(cartItemIterator.hasNext()){
@@ -75,18 +74,16 @@ public class CartController {
             String itemId = cartItem.getItem().getItemId();
 
             try {
-                int quantity = Integer.parseInt(request.getParameter(itemId));
-                cart.setQuantityByItemId(itemId, quantity);
-                if(quantity < 1){
+                cart.setQuantityByItemId(itemId, id);
+                if(id < 1){
                     cartItemIterator.remove();
                 }
             }catch (Exception e){
                 e.printStackTrace();
             }
         }
-        AccountController accountController = (AccountController) request.getSession().getAttribute(
-                "/controller/Account.controller");
-        cartService.insertCart(cart,accountController.getUsername());
+
+        cartService.insertCart(cart,account.getUsername());
         model.addAttribute("cart", cart);
         return "cart/Cart";
     }

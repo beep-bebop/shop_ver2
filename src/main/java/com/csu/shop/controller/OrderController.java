@@ -3,17 +3,14 @@ package com.csu.shop.controller;
 import com.csu.shop.domain.Account;
 import com.csu.shop.domain.Cart;
 import com.csu.shop.domain.Order;
+import com.csu.shop.service.CartService;
 import com.csu.shop.service.OrderService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.SessionAttribute;
-import org.springframework.web.bind.annotation.SessionAttributes;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -21,10 +18,12 @@ import java.util.List;
 
 @Controller
 @RequestMapping("/order")
-@SessionAttributes({"account","order","shippingAddressRequired","confirmed","orderList"})
+@SessionAttributes({"account","order","shippingAddressRequired","confirmed","orderList","cart"})
 public class OrderController {
     @Autowired
     private OrderService orderService;
+    @Autowired
+    private CartService cartService;
     @Autowired
     private Order order;
 
@@ -51,8 +50,9 @@ public class OrderController {
     }
 
     @GetMapping("/newOrderForm")
-    public String newOrderForm(@SessionAttribute("account") Account account,@SessionAttribute("cart") Cart cart,Model model){
+    public String newOrderForm(@SessionAttribute("account") Account account,Model model){
         order=new Order();
+        Cart cart = cartService.getCart(account.getUsername());
         boolean shippingAddressRequired = false;
         boolean confirmed = false;
         List<Order> orderList =null;
@@ -65,6 +65,7 @@ public class OrderController {
         }else if(cart!=null){
             order.initOrder(account,cart);
             model.addAttribute("order",order);
+            model.addAttribute("account",account);
             model.addAttribute("shippingAddressRequired",shippingAddressRequired);
             model.addAttribute("confirmed",confirmed);
             model.addAttribute("orderList",orderList);
@@ -72,11 +73,11 @@ public class OrderController {
         }else{
             String msg="An order could not be created because a cart could not be found.";
             model.addAttribute("msg", msg);
-            return "redirect:/common/Error";
+            return "/common/Error";
         }
     }
 
-    @GetMapping("/newOrder")
+    @PostMapping("/newOrder")
     public String newOrder(HttpServletRequest request,Model model){
         boolean shippingAddressRequired= (boolean) request.getSession().getAttribute("shippingAddressRequired");
         if(shippingAddressRequired){
@@ -89,7 +90,6 @@ public class OrderController {
 
             orderService.insertOrder(order);
 
-            CartController cartController = (CartController) request.getSession().getAttribute("/controller/Cart.controller");
             Cart cart =new Cart();
             String workingItemId = null;
             model.addAttribute("cart",cart);
@@ -99,19 +99,14 @@ public class OrderController {
             return "/order/ViewOrder";
         }else{
             String msg ="An error occurred processing your order (order was null).";
-            return "redirect:/common/Error";
+            return "/common/Error";
         }
     }
 
     @GetMapping("/viewOrder")
-    public String viewOrder(HttpServletRequest request,Model model){
-        HttpSession session = request.getSession();
+    public String viewOrder(@SessionAttribute("account") Account account,@SessionAttribute("order") Order order, Model model){
 
-        AccountController accountController = (AccountController) session.getAttribute("accountController");
-
-        order = orderService.getOrder(order.getOrderId());
-
-        if(accountController.getAccount().getUsername().equals(order.getUsername())){
+        if(account.getUsername().equals(order.getUsername())){
             model.addAttribute("order",order);
             return "/order/ViewOrder";
         }else {
@@ -119,7 +114,7 @@ public class OrderController {
             String msg = "You may only view your own orders.";
             model.addAttribute("msg",msg);
             model.addAttribute("order",order);
-            return "redirect:/common/Error";
+            return "/common/Error";
         }
     }
 }

@@ -11,7 +11,7 @@
 
 <div id="Content">
 	<div id="Catalog">
-		<form action="confirm" method="post">
+		<form action="/order/newOrder" method="post">
 			<table>
 				<tr>
 					<th colspan=2>Payment Details</th>
@@ -44,35 +44,35 @@
 
 				<tr>
 					<td>First name:</td>
-					<td><input type="text" th:field="*{firstName}"></td>
+					<td><input type="text" th:field="*{account.firstName}"></td>
 				</tr>
 				<tr>
 					<td>Last name:</td>
-					<td><input type="text" th:field="*{lastName}"></td>
+					<td><input type="text" th:field="*{account.lastName}"></td>
 				</tr>
 				<tr>
 					<td>Address 1:</td>
-					<td><input type="text" size="40" th:field="*{address1}" ></td>
+					<td><input type="text" size="40" th:field="*{account.address1}" ></td>
 				</tr>
 				<tr>
 					<td>Address 2:</td>
-					<td><input type="text" size="40" th:field="*{address2}"></td>
+					<td><input type="text" size="40" th:field="*{account.address2}"></td>
 				</tr>
 				<tr>
 					<td>City:</td>
-					<td><input type="text" th:field="*{city}"></td>
+					<td><input type="text" th:field="*{account.city}"></td>
 				</tr>
 				<tr>
 					<td>State:</td>
-					<td><input type="text" size="4"  th:field="*{state}"></td>
+					<td><input type="text" size="4"  th:field="*{account.state}"></td>
 				</tr>
 				<tr>
 					<td>Zip:</td>
-					<td><input type="text" size="10"th:field="*{zip}"></td>
+					<td><input type="text" size="10"th:field="*{account.zip}"></td>
 				</tr>
 				<tr>
 					<td>Country:</td>
-					<td><input type="text" size="15" th:field="*{country}"></td>
+					<td><input type="text" size="15" th:field="*{account.country}"></td>
 				</tr>
 
 				<tr>

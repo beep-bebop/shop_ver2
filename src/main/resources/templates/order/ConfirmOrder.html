@@ -11,7 +11,7 @@
 
 <div id="Content">
 	<div id="BackLink">
-		<a href="main">Return to Main Menu</a>
+		<a href="/catalog/main">Return to Main Menu</a>
 	</div>
 
 	<div id="Catalog">Please confirm the information below and then press continue...
@@ -23,7 +23,7 @@
 					<font size="3">
 						<b>
 							<!--<fmt:formatDate value="${sessionScope.order.orderDate}" pattern="yyyy/MM/dd hh:mm:ss" />-->
-							<p th:text="${#dates.format(order.orderDate,‘yyyy-MM-dd HH:mm:ss‘)}">111</p>
+							<p th:text="${#dates.format(order.orderDate,'yyyy-MM-dd HH:mm:ss')}">111</p>
 						</b>
 					</font>
 				</th>
@@ -102,7 +102,7 @@
 
 		</table>
 
-		<a href="finalOrder"><input type="submit"/></a>
+		<a href="/order/viewOrder"><input type="submit"/></a>
 	</div>
 </div>
 
