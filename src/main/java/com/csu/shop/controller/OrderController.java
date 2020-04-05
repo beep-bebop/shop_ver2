@@ -4,6 +4,7 @@ import com.csu.shop.domain.Account;
 import com.csu.shop.domain.Cart;
 import com.csu.shop.domain.Order;
 import com.csu.shop.service.CartService;
+import com.csu.shop.service.LogService;
 import com.csu.shop.service.OrderService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -24,6 +25,8 @@ public class OrderController {
     private OrderService orderService;
     @Autowired
     private CartService cartService;
+    @Autowired
+    private LogService logService;
     @Autowired
     private Order order;
 
@@ -66,6 +69,7 @@ public class OrderController {
             order.initOrder(account,cart);
             model.addAttribute("order",order);
             model.addAttribute("account",account);
+
             model.addAttribute("shippingAddressRequired",shippingAddressRequired);
             model.addAttribute("confirmed",confirmed);
             model.addAttribute("orderList",orderList);
@@ -108,6 +112,7 @@ public class OrderController {
 
         if(account.getUsername().equals(order.getUsername())){
             model.addAttribute("order",order);
+            logService.log(account.getUsername(),"新增订单"+order.getOrderId()+order.getOrderDate());
             return "/order/ViewOrder";
         }else {
             order=null;

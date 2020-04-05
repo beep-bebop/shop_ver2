@@ -1,11 +1,9 @@
 package com.csu.shop.controller;
 
-import com.csu.shop.domain.Account;
-import com.csu.shop.domain.Cart;
-import com.csu.shop.domain.CartItem;
-import com.csu.shop.domain.Item;
+import com.csu.shop.domain.*;
 import com.csu.shop.service.CartService;
 import com.csu.shop.service.CatalogService;
+import com.csu.shop.service.LogService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -22,6 +20,8 @@ public class CartController {
     private CatalogService catalogService;
     @Autowired
     private CartService cartService;
+    @Autowired
+    private LogService logService;
     @Autowired
     private Cart cart;
 
@@ -44,7 +44,7 @@ public class CartController {
             Item item = catalogService.getItem(workingItemId);
             cart.addItem(item,isInStock);
         }
-
+        logService.log(account.getUsername(),"加入商品"+workingItemId);
         cartService.insertCart(cart,account.getUsername());
 
         model.addAttribute("cart", cart);
@@ -54,6 +54,7 @@ public class CartController {
     @GetMapping("/removeItemFromCart")
     public String removeItemFromCart(String workingItem, Model model, @SessionAttribute("account") Account account){
         Item item = cart.removeItemById(workingItem);
+        logService.log(account.getUsername(),"去除商品"+workingItem);
         cartService.insertCart(cart,account.getUsername());
         if(item == null){
             model.addAttribute("message","Attempted to remove null CartItem from Cart");

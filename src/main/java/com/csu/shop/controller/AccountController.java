@@ -4,6 +4,7 @@ import com.csu.shop.domain.Account;
 import com.csu.shop.domain.Product;
 import com.csu.shop.service.AccountService;
 import com.csu.shop.service.CatalogService;
+import com.csu.shop.service.LogService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -23,7 +24,8 @@ public class AccountController {
 
     @Autowired
     private CatalogService catalogService;
-
+    @Autowired
+    private LogService logService;
     @Autowired
     Account account;
 
@@ -65,6 +67,7 @@ public class AccountController {
             List<Product> myList = catalogService.getProductListByCategory(account.getFavouriteCategoryId());
             boolean authenticated = true;
             model.addAttribute("account", account);
+            logService.log(username,"用户登入");
             model.addAttribute("myList", myList);
             model.addAttribute("authenticated", authenticated);
 
@@ -73,10 +76,11 @@ public class AccountController {
     }
 
     @GetMapping("signOff")
-    public String signOff(Model model) {
+    public String signOff(Model model, @SessionAttribute("account") Account account) {
         List<Product> myList = null;
         boolean authenticated = false;
         model.addAttribute("account", null);
+        logService.log(account.getUsername(),"用户登出");
         model.addAttribute("myList", myList);
         model.addAttribute("authenticated", authenticated);
         return "redirect:/catalog/main";
@@ -102,11 +106,12 @@ public class AccountController {
             return "account/EditAccountForm";
         } else {
             accountService.updateAccount(account);
+            logService.log(account.getUsername(),"修改用户数据");
             account = accountService.getAccount(account.getUsername());
             List<Product> myList = catalogService.getProductListByCategory(account.getFavouriteCategoryId());
             boolean authenticated = true;
             model.addAttribute("account", account);
-            model.addAttribute("myList", myList);
+                        model.addAttribute("myList", myList);
             model.addAttribute("authenticated", authenticated);
             return "redirect:/catalog/main";
         }
@@ -132,6 +137,7 @@ public class AccountController {
             return "account/NewAccountForm";
         } else {
             accountService.insertAccount(newAccount);
+            logService.log(newAccount.getUsername(),"注册成功");
             newAccount = accountService.getAccount(newAccount.getUsername());
             List<Product> myList = catalogService.getProductListByCategory(newAccount.getFavouriteCategoryId());
             boolean authenticated = true;
