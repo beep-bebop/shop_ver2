@@ -54,7 +54,7 @@ public class CatalogController {
 
     @ResponseBody
     @RequestMapping(value = "/searchProducts",method= RequestMethod.GET, produces= {"application/xml;charset=UTF-8"})
-    public List<Product> autoSearch(String keyword){
+    public List<Product> searchProducts(String keyword){
         List<Product> products = catalogService.searchProductList(keyword);
         return products;
     }
@@ -71,8 +71,8 @@ public class CatalogController {
         return "catalog/Item";
     }
 
-    @PostMapping("serchProducts")
-    public String serchProducts(String keyword, Model model){
+    @PostMapping("searchProducts")
+    public String searchProducts(String keyword, Model model){
         if(keyword == null || keyword.length() < 1){
             String msg = "Please enter a keyword to search for, then press the search button.";
             model.addAttribute("msg",msg);

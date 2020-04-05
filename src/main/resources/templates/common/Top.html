@@ -34,20 +34,22 @@
 						<a href="/account/editAccountForm">My Account</a>
 					</span>
 					<img align="middle" src="../images/separator.gif" />
-					<!--暂未提供-->
 					<a href="../../help.html">?</a>
 				</div>
 			</div>
-			<script th:src="@{../js/jquery-3.4.1.js}"></script>
+
+			<script th:src="@{../js/jquery-3.3.1.js}"></script>
+			<script th:src="@{../js/searchProduct.js}"></script>
 			<div id="Search">
-				<div id="SearchContent" >
-					<form action="/catalog/serchProducts" method="post" >
-						<input type="text" name="keyword" size="14" class="keyword"  >
-						<input type="submit" name="searchProducts" value="Search" />
-						<script th:src="@{../js/searchProduct.js"></script>
-						<div id="context1" style="background-color:white; border: 1px solid dodgerblue;position: absolute;display:none;margin-left: 8.5%; margin-top: 0%;width: auto;height:auto" >
-						</div>
+				<div id="SearchContent">
+					<form action="/catalog/searchProducts" method="post">
+						<input id="searchProductList" type="text" name="keyword" size="14" placeholder="search..."
+							   onchange="getProducts()" list="productList" />
+						<datalist id="productList" onclick="turnTo('test')">
+						</datalist>
+						<input type="submit" name="searchProducts" value="Search"/>
 					</form>
+					<div id="tips" style="display: none; width:60%;  border: 1px solid greenyellow;"></div>
 				</div>
 			</div>
 <!--			<div id="Search">-->

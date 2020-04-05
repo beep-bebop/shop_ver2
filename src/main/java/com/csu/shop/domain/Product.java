@@ -1,5 +1,9 @@
 package com.csu.shop.domain;
 
+import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
+import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlRootElement;
+
+@JacksonXmlRootElement
 public class Product {
     private String productId;
     private String categoryId;
@@ -8,6 +12,7 @@ public class Product {
     private String descriptionImage;
     private String descriptionText;
 
+    @JacksonXmlProperty
     public String getProductId() {
         return productId;
     }
@@ -24,6 +29,7 @@ public class Product {
         this.categoryId = categoryId;
     }
 
+    @JacksonXmlProperty
     public String getName() {
         return name;
     }
