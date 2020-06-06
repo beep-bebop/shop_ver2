@@ -1,0 +1,183 @@
+<!DOCTYPE logback>
+<configuration>
+  <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+    <encoder>
+      <pattern><![CDATA[date:%d{yyyy-MM-dd HH:mm:ss}\tthread:%thread\tlevel:%-5level\tlogger:%-48logger{48}\t[%line]\tmsg:%msg%n]]></pattern>
+    </encoder>
+  </appender>
+
+<!--  <appender name="ROLLING"-->
+<!--            class="ch.qos.logback.core.rolling.RollingFileAppender">-->
+<!--    <File>log/spring-jpetstore.log</File>-->
+<!--    <rollingPolicy-->
+<!--            class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">-->
+<!--      <FileNamePattern>log/spring-petstore-%d{yyyy-MM-dd}.log-->
+<!--      </FileNamePattern>-->
+<!--      <MaxHistory>3</MaxHistory>-->
+<!--    </rollingPolicy>-->
+<!--    <encoder>-->
+<!--      <Pattern><![CDATA[date:%d{yyyy-MM-dd HH:mm:ss}\tthread:%thread\tlevel:%-5level\tlogger:%-48logger{48}\t[%line] \tmsg:%msg%n]]>-->
+<!--      </Pattern>-->
+<!--    </encoder>-->
+<!--  </appender>-->
+
+  <appender name="infoAppender" class="ch.qos.logback.core.rolling.RollingFileAppender">
+    <!-- 文件路径 ，注意LOG_PATH是默认值，
+        它的配置对应application.properties里的logging.path值-->
+    <file>${LOG_PATH}/info/info.log</file>
+    <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+      <!-- 文件名称 -->
+      <fileNamePattern>info/info-%d{yyyy-MM-dd}.log
+      </fileNamePattern>
+      <!-- 文件最大保存历史数量 -->
+      <MaxHistory>3</MaxHistory>
+    </rollingPolicy>
+    <encoder>
+      <pattern>${FILE_LOG_PATTERN}</pattern>
+    </encoder>
+    <filter class="ch.qos.logback.classic.filter.LevelFilter">
+      <level>INFO</level>
+      <onMatch>ACCEPT</onMatch>
+      <onMismatch>DENY</onMismatch>
+    </filter>
+  </appender>
+
+  <!-- DEBUG -->
+  <appender name="debugAppender" class="ch.qos.logback.core.rolling.RollingFileAppender">
+    <!-- 文件路径 ，注意LOG_PATH是默认值，
+        它的配置对应application.properties里的logging.path值-->
+    <file>${LOG_PATH}/debug/debug.log</file>
+    <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+      <!-- 文件名称 -->
+      <fileNamePattern>debug/debug-%d{yyyy-MM-dd}.log</fileNamePattern>
+      <!-- 文件最大保存历史数量 -->
+      <MaxHistory>3</MaxHistory>
+    </rollingPolicy>
+    <encoder>
+      <pattern>${FILE_LOG_PATTERN}</pattern>
+    </encoder>
+    <filter class="ch.qos.logback.classic.filter.LevelFilter">
+      <level>DEBUG</level>
+      <onMatch>ACCEPT</onMatch>
+      <onMismatch>DENY</onMismatch>
+    </filter>
+  </appender>
+  <!-- WARN -->
+  <appender name="warnAppender" class="ch.qos.logback.core.rolling.RollingFileAppender">
+    <!-- 文件路径 ，注意LOG_PATH是默认值，
+        它的配置对应application.properties里的logging.path值-->
+    <file>${LOG_PATH}/warn/warn.log</file>
+    <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+      <!-- 文件名称 -->
+      <fileNamePattern>warn/warn-%d{yyyy-MM-dd}.log
+      </fileNamePattern>
+      <!-- 文件最大保存历史数量 -->
+      <MaxHistory>3</MaxHistory>
+    </rollingPolicy>
+    <encoder>
+      <pattern>${FILE_LOG_PATTERN}</pattern>
+    </encoder>
+    <filter class="ch.qos.logback.classic.filter.LevelFilter">
+      <level>WARN</level>
+      <onMatch>ACCEPT</onMatch>
+      <onMismatch>DENY</onMismatch>
+    </filter>
+  </appender>
+
+  <!-- ERROR -->
+  <appender name="errorAppender" class="ch.qos.logback.core.rolling.RollingFileAppender">
+    <!-- 文件路径 ，注意LOG_PATH是默认值，
+        它的配置对应application.properties里的logging.path值-->
+    <file>${LOG_PATH}/error/error.log</file>
+    <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+      <!-- 文件名称 -->
+      <fileNamePattern>error/error-%d{yyyy-MM-dd}.log
+      </fileNamePattern>
+      <!-- 文件最大保存历史数量 -->
+      <MaxHistory>3</MaxHistory>
+    </rollingPolicy>
+    <encoder>
+      <pattern>${FILE_LOG_PATTERN}</pattern>
+    </encoder>
+    <filter class="ch.qos.logback.classic.filter.LevelFilter">
+      <level>ERROR</level>
+      <onMatch>ACCEPT</onMatch>
+      <onMismatch>DENY</onMismatch>
+    </filter>
+  </appender>
+
+  <!-- Application Loggers -->
+  <logger name="com.csu.shop.controller">
+    <level value="info" />
+  </logger>
+
+  <logger name="com.csu.shop.service">
+    <level value="info" />
+  </logger>
+
+  <logger name="com.csu.shop.persistence">
+    <level value="info" />
+  </logger>
+  <!-- 3rdparty Loggers -->
+<!--  <logger name="org.springframework.validation">-->
+<!--    <level value="debug" />-->
+<!--  </logger>-->
+<!--  <logger name="org.springframework.context">-->
+<!--    <level value="debug" />-->
+<!--  </logger>-->
+  <logger name="org.springframework.beans">
+    <level value="debug" />
+  </logger>
+
+<!--  <logger name="org.springframework.context">-->
+<!--    <level value="debug" />-->
+<!--  </logger>-->
+
+<!--  <logger name="org.springframework.web">-->
+<!--    <level value="debug" />-->
+<!--  </logger>-->
+
+  <logger name="org.springframework.web.servlet.DispatcherServlet">
+    <level value="debug" />
+  </logger>
+
+<!--  <logger-->
+<!--          name="org.springframework.context.support.PropertySourcesPlaceholderConfigurer">-->
+<!--    <level value="debug" />-->
+<!--  </logger>-->
+
+<!--  <logger name="org.springframework.security.core.userdetails">-->
+<!--    <level value="debug" />-->
+<!--  </logger>-->
+
+  <logger
+          name="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+    <level value="debug" />
+  </logger>
+
+<!--  <logger name="jdbc.sqltiming">-->
+<!--    <level value="debug" />-->
+<!--  </logger>-->
+
+  <!-- 由于启动的时候，以下两个包下打印debug级别日志很多 ，所以调到ERROR-->
+  <logger name="org.apache.tomcat.util" additivity="false">
+    <level value="ERROR"/>
+    <appender-ref ref="STDOUT"/>
+    <appender-ref ref="errorAppender"/>
+  </logger>
+
+  <!-- 默认spring boot导入hibernate很多的依赖包，启动的时候，会有hibernate相关的内容，直接去除 -->
+  <logger name="org.hibernate.standard" additivity="false">
+    <level value="ERROR"/>
+    <appender-ref ref="STDOUT"/>
+    <appender-ref ref="errorAppender"/>
+  </logger>
+
+  <root level="DEBUG">
+    <appender-ref ref="STDOUT"/>
+    <appender-ref ref="infoAppender"/>
+    <appender-ref ref="debugAppender"/>
+    <appender-ref ref="warnAppender"/>
+    <appender-ref ref="errorAppender"/>
+  </root>
+</configuration>

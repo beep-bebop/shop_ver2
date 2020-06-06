@@ -20,10 +20,10 @@
 					<!--购物车-->
 					<a href="/cart/viewCart"><img align="middle" name="img_cart" src="../images/cart.gif" /></a>
 					<img align="middle" src="../images/separator.gif" />
-					<span th:if="${session.account == null}">
+					<span th:if="${session.account == null || !session.authenticated}">
 						<a href="/account/signOnForm">Sign In</a>
 					</span>
-					<span th:if="${session.account != null}">
+					<span th:if="${session.account != null }">
 						<a href="/account/signOff">Sign Out</a>
 						<!---signOff-->
 					</span>

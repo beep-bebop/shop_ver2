@@ -5,6 +5,8 @@ import com.csu.shop.domain.Category;
 import com.csu.shop.domain.Item;
 import com.csu.shop.domain.Product;
 import com.csu.shop.service.CatalogService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -15,6 +17,7 @@ import java.util.List;
 @Controller
 @RequestMapping("/catalog")
 public class CatalogController {
+    private Logger logger = LoggerFactory.getLogger(this.getClass());
 
     @Autowired
     private CatalogService catalogService;
@@ -36,6 +39,7 @@ public class CatalogController {
             List<Product> productList = catalogService.getProductListByCategory(categoryId);
             model.addAttribute("category",category);
             model.addAttribute("productList",productList);
+            logger.info("test2");
             return "catalog/Category";
         }
         return "catalog/Main";

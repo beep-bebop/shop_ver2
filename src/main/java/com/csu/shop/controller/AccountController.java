@@ -5,6 +5,8 @@ import com.csu.shop.domain.Product;
 import com.csu.shop.service.AccountService;
 import com.csu.shop.service.CatalogService;
 import com.csu.shop.service.LogService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -18,7 +20,7 @@ import java.util.List;
 @RequestMapping("/account")
 @SessionAttributes({"account", "myList", "authenticated"})
 public class AccountController {
-
+    private Logger logger = LoggerFactory.getLogger(this.getClass());
     @Autowired
     private AccountService accountService;
 
@@ -67,7 +69,8 @@ public class AccountController {
             List<Product> myList = catalogService.getProductListByCategory(account.getFavouriteCategoryId());
             boolean authenticated = true;
             model.addAttribute("account", account);
-            logService.log(username,"用户登入");
+            //logService.log(username,"用户登入");
+            logger.info("test");
             model.addAttribute("myList", myList);
             model.addAttribute("authenticated", authenticated);
 
@@ -77,10 +80,11 @@ public class AccountController {
 
     @GetMapping("signOff")
     public String signOff(Model model, @SessionAttribute("account") Account account) {
+        logService.log(account.getUsername(),"用户登出");
         List<Product> myList = null;
         boolean authenticated = false;
+        account = null;
         model.addAttribute("account", null);
-        logService.log(account.getUsername(),"用户登出");
         model.addAttribute("myList", myList);
         model.addAttribute("authenticated", authenticated);
         return "redirect:/catalog/main";

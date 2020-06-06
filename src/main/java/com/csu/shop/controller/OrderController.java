@@ -47,7 +47,6 @@ public class OrderController {
 
 
         model.addAttribute("orderList",orderList);
-        model.addAttribute("order",order);
 
         return "/order/ListOrders";
     }
@@ -113,6 +112,7 @@ public class OrderController {
         if(account.getUsername().equals(order.getUsername())){
             model.addAttribute("order",order);
             logService.log(account.getUsername(),"新增订单"+order.getOrderId()+order.getOrderDate());
+            orderService.insertOrder(order);
             return "/order/ViewOrder";
         }else {
             order=null;
