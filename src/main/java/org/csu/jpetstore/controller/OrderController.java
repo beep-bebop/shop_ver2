@@ -2,7 +2,6 @@ package org.csu.jpetstore.controller;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
-import org.csu.jpetstore.domain.Account;
 import org.csu.jpetstore.domain.Order;
 import org.csu.jpetstore.domain.UserLog;
 import org.csu.jpetstore.service.*;
@@ -11,7 +10,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.swing.plaf.basic.BasicInternalFrameTitlePane;
+import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -55,24 +55,43 @@ public class OrderController {
     @GetMapping("/listOrders")
     public ReturnEntity listOrders(){
         JSONObject data = new JSONObject();
+        BigDecimal total = BigDecimal.valueOf(0);
         List<Order> orderList = orderService.getOrders();
+        for(int i=0;i<orderList.size();i++) {
+            Order order = orderList.get(i);
+            total = total.add(order.getTotalPrice());
+            System.out.println(total);
+        }
         System.out.println(orderList);
         data.put("orders",orderList);
+        data.put("total",total);
         return ReturnEntity.successResult(data);
     }
 
 
+
     @GetMapping("/user/orders")
-    public ReturnEntity getOrders(@RequestAttribute String username) {
+    public ReturnEntity getOrders(@RequestParam Map<String,String> params) {
         JSONObject data = new JSONObject();
-        List<Order> orderList = orderService.getOrdersByUsername(username);
-        data.put("orderList", orderList);
+        System.out.println(params);
+        List<Order> orderList = new ArrayList<>();
+        if (params.get("status") == null || params.get("status").length() == 0 ) {
+            if (params.get("username") == null || params.get("username").length() == 0)
+                orderList = orderService.getOrders();
+            else
+                orderList = orderService.getOrdersByUsername(params.get("username"));
+        } else {
+            if (params.get("username") == null || params.get("username").length() == 0)
+                orderList = orderService.getOrdersByStatus(params.get("status"));
+            else
+                orderList = orderService.getOrdersByUsernameAndStatus(params.get("username"),params.get("status"));
+        }
+        data.put("orders",orderList);
         return ReturnEntity.successResult(data);
     }
 
     @GetMapping("/user/order")
     public ReturnEntity getOrder(@RequestParam Map<String,String> params) {
-        System.out.println(params);
         JSONObject data = new JSONObject();
         Order order = orderService.getOrder(Integer.parseInt(params.get("id")));
         data.put("order", order);
@@ -80,10 +99,9 @@ public class OrderController {
     }
 
 
-    @PutMapping("order/edit")
+    @PostMapping("order/edit")
     public ReturnEntity updateOrder(@RequestBody String order){
         Order order1 = JSON.parseObject(order,Order.class);
-        System.out.println(order);
         if (order1 == null) {
             return ReturnEntity.failedResult("缺少参数order");
         }
@@ -93,5 +111,13 @@ public class OrderController {
         orderService.updateOrderAndInventory(order1);
         data1.put("order", order1);
         return ReturnEntity.successResult(data1);
+    }
+
+    @PostMapping("order/delete")
+    public ReturnEntity deleteOrder(@RequestBody String params) {
+        System.out.println(params);
+        JSONObject data = JSON.parseObject(params);
+        orderService.deleteOrder(Integer.parseInt(data.getString("orderId")));
+        return ReturnEntity.successResult("deleted");
     }
 }

@@ -20,4 +20,9 @@ public interface OrderMapper {
 
   void updateOrderStatus(Order order);
 
+  void updateOrder(Order order);
+
+  void deleteOrder(int orderId);
+
+  List<Order> getOrdersByStatus(String status);
 }

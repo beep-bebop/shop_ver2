@@ -73,6 +73,41 @@
     order by orderdate
   </select>
 
+  <select id="getOrdersByStatus" parameterType="string" resultType="order">
+    select
+      billaddr1 as billAddress1,
+      billaddr2 as billAddress2,
+      billcity,
+      billcountry,
+      billstate,
+      billtofirstname,
+      billtolastname,
+      billzip,
+      shipaddr1 as shipAddress1,
+      shipaddr2 as shipAddress2,
+      shipcity,
+      shipcountry,
+      shipstate,
+      shiptofirstname,
+      shiptolastname,
+      shipzip,
+      cardtype,
+      courier,
+      creditcard,
+      exprdate as expiryDate,
+      locale,
+      orderdate,
+      orders.orderid,
+      totalprice,
+      userid as username,
+      status
+    from orders, orderstatus
+    where orderstatus.status = #{value}
+      and orders.orderid = orderstatus.orderid
+    order by orderdate
+  </select>
+
+
   <select id="getOrders" resultType="order">
     select
       billaddr1 as billAddress1,
@@ -124,10 +159,41 @@
 
 
     <!--  1-未付款，2-已付款，3-运输中，4-已签收-->
-    <update id="updateOrderStatus" parameterType="order">
+  <update id="updateOrderStatus" parameterType="order">
     update orderstatus set
-     status = "2" 
+     status = #{status}
     where orderid = #{orderId}
   </update>
 
+  <update id="updateOrder" parameterType="order">
+    update orders set
+        billaddr1 = #{billAddress1},
+      billaddr2 = #{billAddress2},
+      billcity = #{billCity},
+      billcountry = #{billCountry},
+      billstate = #{billState},
+      billtofirstname = #{billToFirstName},
+      billtolastname = #{billToLastName},
+      billzip = #{billZip},
+      shipaddr1 = #{shipAddress1},
+      shipaddr2 = #{shipAddress2},
+      shipcity = #{shipCity},
+      shipcountry = #{shipCountry},
+      shipstate = #{shipState},
+      shiptofirstname = #{shipToFirstName},
+      shiptolastname = #{shipToLastName},
+      shipzip = #{shipZip},
+      cardtype = #{cardType},
+      courier = #{courier},
+      creditcard = #{creditCard},
+      exprdate = #{expiryDate},
+      locale = #{locale},
+      orderdate = #{orderDate},
+      totalprice = #{totalPrice}
+    where orderid = #{orderId}
+  </update>
+  <delete id="deleteOrder" parameterType="int">
+    delete from orders
+    where orderid = #{value}
+  </delete>
 </mapper>
