@@ -32,6 +32,13 @@ module.exports = {
   devServer: {
     port: port,
     open: true,
+    proxy: {
+      "/api": {
+        target: "http://127.0.0.1:8090", //设置调用的接口域名和端口
+        changeOrigin: true, //是否跨域
+        ws: true,//websocket
+      }
+    },
     overlay: {
       warnings: false,
       errors: true

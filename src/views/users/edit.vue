@@ -6,9 +6,9 @@
       </el-form-item>
       <el-form-item label="Name">
         <el-tag>first name</el-tag>
-        <el-input v-model="form.firstname" style="width: 20%;" placeholder="请输入内容" />
+        <el-input v-model="form.firstname" style="width: 20%;" placeholder="please enter" />
         <el-tag>last name</el-tag>
-        <el-input v-model="form.lastname" style="width: 20%;" placeholder="请输入内容" />
+        <el-input v-model="form.lastname" style="width: 20%;" placeholder="please enter" />
         <el-divider />
       </el-form-item>
       <el-form-item label="Address">
@@ -79,38 +79,71 @@ export default {
       }
     }
   },
+  created() {
+    this.axios.get('/user', { params: {
+        username: this.$route.query.param
+      }})
+      .then(res => {
+        let account = res.data.data.account
+        console.log(this.form.password)
+        this.form.name = account.username
+        this.form.firstname = account.firstName
+        this.form.lastname = account.lastName
+        this.form.email = account.email
+        this.form.phone = account.phone
+        this.form.address1 = account.addr1
+        this.form.address2 = account.addr2
+        this.form.country = account.country
+        this.form.city = account.city
+        this.form.state = account.state
+        this.form.password = account.password
+        this.form.zip = account.zip
+        this.form.languagePreference = account.languagePreference
+        this.form.favouriteCategory = account.favouriteCategoryId
+        this.form.list = account.listOption
+        this.form.banner = account.bannerOption
+        this.form.bannerName = account.bannerName
+      })
+      // eslint-disable-next-line handle-callback-err
+      .catch(err => {
+        this.$message('choose a user')
+      })
+  },
   methods: {
     onSubmit() {
-      const account = {
-        username: this.form.id,
+      // this.axios({url:'/user/edit', method:'post',data:JSON.stringify(account),
+      //   headers:{'Content-Type':'application/json'}})
+      this.axios.post('user/edit',{
+        username: this.form.name,
         password: this.form.password,
-        // email: this.form.email,
+        email: this.form.email,
         firstName: this.form.firstname,
         lastName: this.form.lastname,
+        status: 'EDITED',
         addr1: this.form.address1,
         addr2: this.form.address2,
         city: this.form.city,
         state: this.form.state,
-        // zip: this.form.zip,
+        zip: this.form.zip,
         country: this.form.country,
-        phone: this.form.phone
-        // favouriteCategoryId: this.form.favouriteCategory,
-        // languagePreference: this.form.languagePreference,
-        // listOption: this.form.list,
-        // bannerOption: this.form.banner,
-        // bannerName: this.form.banner
-      }
-      this.axios.put('/user/detailinfo', account)
-        .then(res => {
+        phone: this.form.phone,
+        favouriteCategoryId: this.form.favouriteCategory,
+        languagePreference: this.form.languagePreference,
+        listOption: this.form.list,
+        bannerOption: this.form.banner,
+        bannerName: this.form.bannerName},{
+        headers: {
+          'Content-Type': 'text/plain;charset=UTF-8'
+        }}).then(res => {
           if (res.data.status) {
-            this.$message.success('更新成功')
+            this.$message.success('success')
           } else {
-            this.$message('请先登入')
+            this.$message('fail to edit')
           }
         }).catch(err => {
         // eslint-disable-next-line eqeqeq
           if (err.response.status == 400) {
-            this.$message('请先登入')
+            this.$message('cannot connect to server')
           // 跳转到登录页
           }
           window.console.error(err)
@@ -118,36 +151,15 @@ export default {
       this.$message('submit!')
     },
     onCancel() {
-      this.$message({
-        message: 'cancel!',
-        type: 'warning'
+      this.$nextTick(function() {
+        this.$router.push({
+          path: '/users/view',
+        })
+        this.$message({
+          message: 'cancel!',
+          type: 'warning'
+        })
       })
-    },
-    created() {
-      this.axios.get('/user/detailinfo', { params: {
-        id: this.$route.query.param
-      }})
-        .then(res => {
-          const account = res.data.data.account
-          this.form.name = account.username
-          this.form.firstname = account.firstName
-          this.form.lastname = account.lastName
-          // this.form.phone = account.phone
-          this.form.address1 = account.addr1
-          this.form.address2 = account.addr2
-          this.form.country = account.country
-          this.form.city = account.city
-          this.form.state = account.state
-          // this.form.zip = account.zip
-          // this.form.languagePreference = account.languagePreference
-          // this.form.favouriteCategory = account.favouriteCategoryId
-          // this.form.list = account.listOption
-          // this.form.banner = account.bannerOption
-        })
-        // eslint-disable-next-line handle-callback-err
-        .catch(err => {
-          this.$message('请先登入')
-        })
     }
   }
 }

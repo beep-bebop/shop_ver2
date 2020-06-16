@@ -10,7 +10,7 @@
             <div class="card-panel-text">
               Number
             </div>
-            <count-to :start-val="0" :end-val="102400" :duration="2600" class="card-panel-num" />
+            <count-to :start-val="0" :end-val=this.list.length :duration="1" class="card-panel-num" />
           </div>
         </div>
       </el-col>
@@ -28,28 +28,15 @@
         </div>
       </el-col>
       <el-col :xs="12" :sm="12" :lg="6" class="card-panel-col">
-        <div class="card-panel" @click="handleSetLineChartData('purchases')">
+        <div class="card-panel" @click="handleSetLineChartData('messages')">
           <div class="card-panel-icon-wrapper icon-money">
-            <svg-icon icon-class="money" class-name="card-panel-icon" />
+            <svg-icon icon-class="message" class-name="card-panel-icon" />
           </div>
           <div class="card-panel-description">
             <div class="card-panel-text">
-              Purchases
+              Most Popular
             </div>
-            <count-to :start-val="0" :end-val="9280" :duration="3200" class="card-panel-num" />
-          </div>
-        </div>
-      </el-col>
-      <el-col :xs="12" :sm="12" :lg="6" class="card-panel-col">
-        <div class="card-panel" @click="handleSetLineChartData('shoppings')">
-          <div class="card-panel-icon-wrapper icon-shopping">
-            <svg-icon icon-class="shopping" class-name="card-panel-icon" />
-          </div>
-          <div class="card-panel-description">
-            <div class="card-panel-text">
-              Orders
-            </div>
-            <count-to :start-val="0" :end-val="13600" :duration="3600" class="card-panel-num" />
+            <font class="card-panel-num">DOGS</font>
           </div>
         </div>
       </el-col>
@@ -57,7 +44,7 @@
 
     <div class="filter-container">
       <el-input v-model="listQuery.title" placeholder="Title" style="width: 900px;margin-right: 15px" class="filter-item" @keyup.enter.native="handleFilter" />
-      <el-button v-waves class="filter-item" type="primary"  icon="el-icon-search" @click="handleFilter">
+      <el-button v-waves class="filter-item" type="primary"  icon="el-icon-search" @click="handleSearch">
         Search
       </el-button>
       <el-button v-waves :loading="downloadLoading" class="filter-item" type="primary" icon="el-icon-download" @click="handleDownload">
@@ -72,43 +59,52 @@
       border
       fit
       highlight-current-row
-      @row-click="overallClick"
     >
-      <el-table-column align="center" label="Index" width="95">
+      <el-table-column align="center" label="Index" min-width="10%">
         <template slot-scope="scope">
           {{ scope.$index }}
         </template>
       </el-table-column>
-      <el-table-column label="Username" width="200">
+      <el-table-column label="Username" min-width="20%">
         <template slot-scope="scope">
           {{ scope.row.username }}
         </template>
       </el-table-column>
-      <el-table-column label="isVIP" width="110" align="center">
+      <el-table-column label="isVIP" min-width="10%" align="center">
         <template slot-scope="scope">
           <span>{{ scope.row.isVIP }}</span>
         </template>
       </el-table-column>
-      <el-table-column label="Orders" width="100" align="center">
+      <el-table-column label="Orders" min-width="10%" align="center">
         <template slot-scope="scope">
-          {{ scope.row.orders }}
+          {{ scope.row.zip }}
         </template>
       </el-table-column>
-      <el-table-column align="center" prop="created_at" label="Order Time" width="300">
+      <el-table-column align="center" prop="created_at" label="Favourite" min-width="10%">
         <template slot-scope="scope">
-          <i class="el-icon-time" />
-          <span>{{ scope.row.order_time }}</span>
+          <span>{{ scope.row.favouriteCategoryId }}</span>
         </template>
       </el-table-column>
-      <el-table-column class-name="status-col" label="Status" width="120" align="center">
+      <el-table-column align="center" prop="created_at" label="Language" min-width="10%">
+        <template slot-scope="scope">
+          <span>{{ scope.row.languagePreference }}</span>
+        </template>
+      </el-table-column>
+      <el-table-column align="center" prop="created_at" label="Language" min-width="10%">
+        <template slot-scope="scope">
+          <a href="mailto:1143432728@qq.com">check</a>
+        </template>
+      </el-table-column>
+      <el-table-column class-name="status-col" label="Status" min-width="10%" align="center">
         <template slot-scope="scope">
           <el-tag :type="scope.row.status | statusFilter">{{ scope.row.status }}</el-tag>
         </template>
       </el-table-column>
-      <el-table-column align="center" label="Action" width="280">
-        <template slot-scope="scope">
-          <i class="el-icon-time" />
-          <span>{{ scope.row.order_time }}</span>
+      <el-table-column align="center" label="Action"min-width="20%">
+        <template slot-scope="{row}">
+          <el-button @click.native="edit(row)" type="primary" size="small" icon="el-icon-edit">
+            Edit
+          </el-button>
         </template>
       </el-table-column>
     </el-table>
@@ -127,9 +123,8 @@ export default {
   filters: {
     statusFilter(status) {
       const statusMap = {
-        online: 'success',
-        offline: 'gray',
-        banned: 'danger'
+        OK: 'success',
+        EDITED: 'info',
       }
       return statusMap[status]
     }
@@ -150,18 +145,19 @@ export default {
     }
   },
   created() {
-    this.fetchData()
-    this.overallClick()
+    this.fetchData();
+    // this.edit()
   },
   methods: {
     fetchData() {
-      this.listLoading = true
-      getList().then(response => {
-        this.list = response.data.items
-        this.listLoading = false
+      this.listLoading = true;
+      this.axios.get('/users')
+        .then(response => {
+        this.list = response.data.data.accounts;
+        this.listLoading = false;
       })
     },
-    overallClick(row) {
+    edit(row) {
       if (row) {
         const id = row.username
         const that = this
@@ -184,6 +180,17 @@ export default {
           return v[j]
         }
       }))
+    },
+    handleSearch() {
+      this.listLoading = true;
+      console.log("search"+this.listQuery.title)
+      this.axios.get('/user/search',{ params: {
+          username: this.listQuery.title
+        }})
+        .then(response => {
+          this.list = response.data.data.accounts;
+          this.listLoading = false;
+        })
     },
     handleDownload() {
       this.downloadLoading = true
