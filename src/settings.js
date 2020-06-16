@@ -1,6 +1,6 @@
 module.exports = {
 
-  title: 'Vue Admin Template',
+  title: 'JPetStore Console',
 
   /**
    * @type {boolean} true | false

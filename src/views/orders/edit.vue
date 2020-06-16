@@ -97,15 +97,19 @@
               <el-input v-model="order.shipCountry" />
             </el-form-item>
           </div>
-          <div>
             <el-divider>Operation</el-divider>
-            <el-form-item>
-              <el-button type="primary" @click="onSubmit">Submit</el-button>
-              <el-button type="success" @click="onDeliver">Delivered</el-button>
-<!--              <label style="margin-right:100px;"></label>-->
-              <el-button type="info" @click="onCancel">Cancel</el-button>
+            <el-form-item style="width: border-box">
+              <el-row>
+                <el-button style="width: 150px" type="primary" @click="onSubmit">Submit</el-button>
+                <el-button style="width: 150px" type="success" @click="onDeliver">Deliver</el-button>
+              </el-row>
+              <el-row>
+                <el-divider></el-divider>
+                <!--              <label style="margin-right:100px;"></label>-->
+                <el-button style="width: 150px" type="info" @click="onCancel">Cancel</el-button>
+                <el-button style="width: 150px" type="danger" @click="onDelete">Delete</el-button>
+              </el-row>
             </el-form-item>
-          </div>
         </el-col>
       </el-row>
     </el-form>
@@ -192,26 +196,77 @@ export default {
         cardType: this.order.cardType,
         creditCard: this.order.creditCard,
         expiryDate: this.order.expiryDate,
-        billToFirstName: this.order.firstName,
-        billToLastName: this.order.lastName,
+        billToFirstName: this.order.billToFirstName,
+        billToLastName: this.order.billToLastName,
         billAddress1: this.order.billAddress1,
         billAddress2: this.order.billAddress2,
         billCity: this.order.billCity,
         billState: this.order.billState,
         billZip: this.order.billZip,
         billCountry: this.order.billCountry,
-        shipToFirstName: this.order.shipFirstName,
-        shipToLastName: this.order.shipLastName,
+        shipToFirstName: this.order.shipToFirstName,
+        shipToLastName: this.order.shipToLastName,
         shipAddress1: this.order.shipAddress1,
         shipAddress2: this.order.shipAddress2,
         shipCity: this.order.shipCity,
         shipState: this.order.shipState,
         shipZip: this.order.shipZip,
         shipCountry: this.order.shipCountry,
-        local: 'CA',
+        locale: 'CA',
         lineItems: [],
         courier: this.order.courier,
-        totalPrice: this.order.totalPrice
+        totalPrice: this.order.totalPrice,
+        status: 'P'
+      },{
+        headers: {
+          'Content-Type': 'text/plain;charset=UTF-8'
+        }}).then(res => {
+        if (res.data.status) {
+          this.$message.success('success')
+        } else {
+          this.$message('fail to edit')
+        }
+      }).catch(err => {
+        // eslint-disable-next-line eqeqeq
+        if (err.response.status == 400) {
+          this.$message('cannot connect to server')
+          // 跳转到登录页
+        }
+        window.console.error(err)
+      })
+      this.$message('submit!')
+    },
+    onDeliver() {
+      // this.axios({url:'/user/edit', method:'post',data:JSON.stringify(account),
+      //   headers:{'Content-Type':'application/json'}})
+      this.axios.post('order/edit',{
+        orderId: this.order.orderId,
+        username: this.order.username,
+        orderDate: this.order.orderDate,
+        cardType: this.order.cardType,
+        creditCard: this.order.creditCard,
+        expiryDate: this.order.expiryDate,
+        billToFirstName: this.order.billToFirstName,
+        billToLastName: this.order.billToLastName,
+        billAddress1: this.order.billAddress1,
+        billAddress2: this.order.billAddress2,
+        billCity: this.order.billCity,
+        billState: this.order.billState,
+        billZip: this.order.billZip,
+        billCountry: this.order.billCountry,
+        shipToFirstName: this.order.shipToFirstName,
+        shipToLastName: this.order.shipToLastName,
+        shipAddress1: this.order.shipAddress1,
+        shipAddress2: this.order.shipAddress2,
+        shipCity: this.order.shipCity,
+        shipState: this.order.shipState,
+        shipZip: this.order.shipZip,
+        shipCountry: this.order.shipCountry,
+        locale: 'CA',
+        lineItems: [],
+        courier: this.order.courier,
+        totalPrice: this.order.totalPrice,
+        status: 'D'
       },{
         headers: {
           'Content-Type': 'text/plain;charset=UTF-8'
@@ -252,6 +307,34 @@ export default {
           if (res.data.status) {
             this.order = res.data.data.order
             this.lineItems = this.order.lineItems
+          } else {
+            this.$message('fail')
+          }
+        })
+        .catch(err => {
+          if (err.response.status === 400) {
+            this.$message('disconnect with server')
+          }
+          window.console.error(err)
+        })
+    },
+    onDelete() {
+      console.log(this.order.orderId)
+      this.axios.post('/order/delete', {
+        orderId: this.order.orderId
+      },{
+        headers: {
+          'Content-Type': 'text/plain;charset=UTF-8'
+        }})
+        .then(res => {
+          if (res.data.status) {
+            this.$message({
+              message: 'Deleted',
+              type: 'warning'
+            })
+            this.$router.push({
+              path: '/orders/list',
+            })
           } else {
             this.$message('fail')
           }

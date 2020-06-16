@@ -201,7 +201,7 @@ export default {
         excel.export_json_to_excel({
           header: tHeader,
           data,
-          filename: 'table-list'
+          filename: 'user-list'
         })
         this.downloadLoading = false
       })

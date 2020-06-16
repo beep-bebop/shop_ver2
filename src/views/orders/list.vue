@@ -10,7 +10,8 @@
             <div class="card-panel-text">
               Purchases
             </div>
-            <count-to :start-val="0" :end-val="9280" :duration="3200" class="card-panel-num" />
+            <font class="card-panel-num">$</font>
+            <count-to :start-val="0" :end-val=this.total :duration="10" class="card-panel-num" />
           </div>
         </div>
       </el-col>
@@ -23,39 +24,53 @@
             <div class="card-panel-text">
               Orders
             </div>
-            <count-to :start-val="0" :end-val="13600" :duration="3600" class="card-panel-num" />
+            <count-to :start-val="0" :end-val=list.length :duration="1" class="card-panel-num" />
           </div>
         </div>
       </el-col>
     </el-row>
 
+    <div class="filter-container">
+      <el-input v-model="listQuery.username" placeholder="Username" style="width: 330px;margin-right: 15px" class="filter-item" @keyup.enter.native="handleFilter" />
+      <el-select v-model="listQuery.status" placeholder="Status" clearable style="width: 120px;margin-right: 15px" class="filter-item">
+        <el-option label="Delivered" value="D" />
+        <el-option label="Pending" value="P" />
+      </el-select>
+      <el-button v-waves class="filter-item" type="primary" icon="el-icon-search" @click="handleSearch">
+        Search
+      </el-button>
+      <el-button v-waves :loading="downloadLoading" class="filter-item" type="primary" icon="el-icon-download" @click="handleDownload">
+        Export
+      </el-button>
+    </div>
+    <el-divider></el-divider>
     <el-table v-loading="listLoading" :data="list" border fit element-loading-text="Loading"
               highlight-current-row style="width: 100%">
-      <el-table-column align="center" label="ID" width="80">
+      <el-table-column align="center" label="ID"  min-width="10%">
         <template slot-scope="scope">
           <span>{{ scope.row.orderId }}</span>
         </template>
       </el-table-column>
 
-      <el-table-column width="180px" align="center" label="Date">
+      <el-table-column width="180px" align="center" label="Date" min-width="20%">
         <template slot-scope="scope">
           <span>{{ scope.row.orderDate }}</span>
         </template>
       </el-table-column>
 
-      <el-table-column width="120px" align="center" label="Author">
+      <el-table-column width="120px" align="center" label="User" min-width="10%">
         <template slot-scope="scope">
           <span>{{ scope.row.username }}</span>
         </template>
       </el-table-column>
 
-      <el-table-column width="100px" label="Price">
+      <el-table-column width="100px" label="Price" min-width="10%">
         <template slot-scope="scope">
           <span>{{ scope.row.totalPrice }}</span>
         </template>
       </el-table-column>
 
-      <el-table-column class-name="status-col" label="Status" width="110">
+      <el-table-column class-name="status-col" label="Status" min-width="10%">
         <template slot-scope="{row}">
           <el-tag v-if="row.status==='P'" :type="row.status | statusFilter">
             Pending
@@ -66,17 +81,17 @@
         </template>
       </el-table-column>
 
-      <el-table-column min-width="300px" label="Address1">
+      <el-table-column label="Address1" min-width="20%">
         <template slot-scope="{row}">
             <span>{{ row.shipAddress1 }}</span>
         </template>
       </el-table-column>
-      <el-table-column min-width="300px" label="Address2">
+      <el-table-column label="Address2" min-width="20%">
         <template slot-scope="{row}">
           <span>{{ row.shipAddress2 }}</span>
         </template>
       </el-table-column>
-      <el-table-column align="center" label="Actions" width="120">
+      <el-table-column align="center" label="Actions"  min-width="10%">
         <template slot-scope="{row}">
           <el-button @click.native="overallClick(row)" type="primary" size="small" icon="el-icon-edit">
             Edit
@@ -115,20 +130,34 @@ export default {
       total: 0,
       listLoading: true,
       listQuery: {
-        page: 1,
-        limit: 20
-      }
+        username: undefined,
+        status: undefined,
+      },
+      downloadLoading: false
     }
   },
   created() {
     this.getList()
   },
   methods: {
+    handleSearch() {
+      console.log("11111111"+this.listQuery.status)
+      this.listLoading = true;
+      this.axios.get('/user/orders',{ params: {
+          username: this.listQuery.username,
+          status: this.listQuery.status
+        }})
+        .then(response => {
+          this.list = response.data.data.orders;
+          this.listLoading = false;
+        })
+    },
     getList() {
       this.listLoading = true
       this.axios.get('/listOrders')
         .then(response => {
           this.list = response.data.data.orders;
+          this.total = response.data.data.total;
           console.log(response.data);
           this.listLoading = false;
         })
@@ -147,6 +176,29 @@ export default {
           query: { param: id }
         })
       })
+    },
+    handleDownload() {
+      this.downloadLoading = true
+      import('@/vendor/Export2Excel').then(excel => {
+        const tHeader = ['orderId', 'orderDate', 'username', 'totalPrice', 'status', 'shipAddress1', 'shipAddress2']
+        const filterVal = ['orderId', 'orderDate', 'username', 'totalPrice', 'status', 'shipAddress1', 'shipAddress2']
+        const data = this.formatJson(filterVal)
+        excel.export_json_to_excel({
+          header: tHeader,
+          data,
+          filename: 'order-list'
+        })
+        this.downloadLoading = false
+      })
+    },
+    formatJson(filterVal) {
+      return this.list.map(v => filterVal.map(j => {
+        if (j === 'timestamp') {
+          return parseTime(v[j])
+        } else {
+          return v[j]
+        }
+      }))
     }
   }
 }
