@@ -4,6 +4,7 @@ import com.alibaba.fastjson.JSONObject;
 import org.csu.jpetstore.domain.Item;
 import org.csu.jpetstore.domain.Product;
 import org.csu.jpetstore.service.CatalogService;
+import org.csu.jpetstore.service.ServerService;
 import org.csu.jpetstore.utils.ReturnEntity;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -16,6 +17,8 @@ import java.util.List;
 public class CatalogController {
     @Autowired
     private CatalogService catalogService;
+    @Autowired
+    private ServerService serverService;
 
     @GetMapping("/category")
     public ReturnEntity getCategory(@RequestParam String id) {
@@ -60,5 +63,11 @@ public class CatalogController {
         }
         data.put("productList", productList);
         return ReturnEntity.successResult(productList);
+    }
+
+    @GetMapping("/server/status")
+    public ReturnEntity status() {
+        System.out.println(serverService.status());
+        return ReturnEntity.successResult(serverService.status());
     }
 }
