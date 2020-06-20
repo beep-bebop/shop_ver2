@@ -48,7 +48,7 @@ public class OrderController {
         cartService.deleteByUsername(username);
         data.put("order", order);
         UserLog log = new UserLog(new Date(), "用户:" + username + "提交订单,总价值:" + order.getTotalPrice());
-        logService.insertUserLog(log);
+//        logService.insertUserLog(log);
         return ReturnEntity.successResult(data);
     }
 

@@ -55,7 +55,7 @@ public class CartController {
         cartService.insertOrUpdateCartItem(username, itemId, quantity, new BigDecimal(quantity).multiply(item.getListPrice()));
         data.put("cart", cart);
         UserLog log = new UserLog(new Date(), "用户:" + username + "添加item:" + itemId + "到购物车");
-        logService.insertUserLog(log);
+//        logService.insertUserLog(log);
         return ReturnEntity.successResult(data);
     }
 
@@ -82,7 +82,7 @@ public class CartController {
         }
         data.put("cart", cart);
         UserLog log = new UserLog(new Date(), "用户:" + username + "更新item:" + itemId + "目前数量为" + quantity);
-        logService.insertUserLog(log);
+//        logService.insertUserLog(log);
         return ReturnEntity.successResult(data);
     }
 }

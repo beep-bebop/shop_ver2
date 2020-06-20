@@ -1,9 +1,11 @@
 package org.csu.jpetstore.controller;
 
 import com.alibaba.fastjson.JSONObject;
+import com.google.gson.JsonObject;
 import org.csu.jpetstore.domain.Item;
 import org.csu.jpetstore.domain.Product;
 import org.csu.jpetstore.service.CatalogService;
+import org.csu.jpetstore.service.LogService;
 import org.csu.jpetstore.service.ServerService;
 import org.csu.jpetstore.utils.ReturnEntity;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,6 +21,8 @@ public class CatalogController {
     private CatalogService catalogService;
     @Autowired
     private ServerService serverService;
+    @Autowired
+    private LogService logService;
 
     @GetMapping("/category")
     public ReturnEntity getCategory(@RequestParam String id) {
@@ -69,5 +73,12 @@ public class CatalogController {
     public ReturnEntity status() {
         System.out.println(serverService.status());
         return ReturnEntity.successResult(serverService.status());
+    }
+
+    @GetMapping("/log")
+    public ReturnEntity getLog() {
+        JSONObject data = new JSONObject();
+        data.put("logList",logService.getLog());
+        return ReturnEntity.successResult(data);
     }
 }

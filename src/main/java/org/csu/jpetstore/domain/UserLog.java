@@ -3,30 +3,40 @@ package org.csu.jpetstore.domain;
 import java.util.Date;
 
 public class UserLog {
-    private Date timeStamp;
-    private String log;
+    private Date time;
+
+    public String getUserid() {
+        return userid;
+    }
+
+    public void setUserid(String userid) {
+        this.userid = userid;
+    }
+
+    private String userid;
+    private String actions;
 
     public UserLog() {
     }
 
     public UserLog(Date timeStamp, String log) {
-        this.timeStamp = timeStamp;
-        this.log = log;
+        this.time = timeStamp;
+        this.actions = log;
     }
 
     public Date getTimeStamp() {
-        return timeStamp;
+        return time;
     }
 
     public void setTimeStamp(Date timeStamp) {
-        this.timeStamp = timeStamp;
+        this.time = timeStamp;
     }
 
     public String getLog() {
-        return log;
+        return actions;
     }
 
     public void setLog(String log) {
-        this.log = log;
+        this.actions = log;
     }
 }
