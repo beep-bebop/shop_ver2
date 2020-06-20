@@ -5,10 +5,10 @@
     </div>
     <div style="position:relative;">
 <!--      <pan-thumb :image="avatar" class="panThumb" />-->
-      <mallki class-name="mallki-text" text="Admin" />
-      <div style="padding-top:35px;" class="progress-item">
+      <mallki class-name="mallki-text" text='Admin' />
+      <div style="padding-top:35px;width: 50%" class="progress-item">
         <span>Server ID</span>
-        <el-divider></el-divider>
+        <el-divider ></el-divider>
         <span>{{status.id}}</span>
         <el-tag :type="status.status | statusFilter">{{ status.status }}</el-tag>
       </div>
@@ -19,19 +19,19 @@
         <el-progress :percentage=status.cpu />
       </div>
       <el-divider></el-divider>
-      <div class="progress-item">
+      <div class="progress-item" style="width: 50%">
         <span>InternetRX</span>
         <el-divider></el-divider>
         <count-to :start-val="0" :end-val=status.receive :duration="2" class="card-panel-num" />
       </div>
       <el-divider></el-divider>
-      <div class="progress-item">
+      <div class="progress-item" style="width: 50%">
         <span>InternetTX</span>
         <el-divider></el-divider>
         <count-to :start-val="0" :end-val=status.send :duration="2" class="card-panel-num" />
       </div>
       <el-divider></el-divider>
-      <div class="progress-item">
+      <div class="progress-item" style="width: 50%">
         <span>Time</span>
         <el-divider></el-divider>
         <div class ="time" style="font-size: medium;font-style: unset">{{date}}</div>

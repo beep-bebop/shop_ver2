@@ -107,7 +107,7 @@
                 <el-divider></el-divider>
                 <!--              <label style="margin-right:100px;"></label>-->
                 <el-button style="width: 150px" type="info" @click="onCancel">Cancel</el-button>
-                <el-button style="width: 150px" type="danger" @click="onDelete">Delete</el-button>
+                <el-button style="width: 150px" type="danger" @click="confirms">Delete</el-button>
               </el-row>
             </el-form-item>
         </el-col>
@@ -143,14 +143,27 @@
 <!--        </template>-->
 <!--      </el-table-column>-->
 <!--    </el-table>-->
+    <el-dialog :visible.sync="dialogVisible" title="Confirm">
+      <span>确定删除？</span>
+      <div slot="footer" class="dialog-footer">
+        <el-button @click="dialogVisible = false">
+          Cancel
+        </el-button>
+        <el-button type="primary" @click="dialogVisible = false" onclick="onDelete()">
+          Confirm
+        </el-button>
+      </div>
+    </el-dialog>
   </div>
 </template>
 
 <script>
+
 export default {
   data() {
     return {
       // order: null,
+      dialogVisible: false,
       lineItems: null,
       order: {
         id: this.$route.query.param,
@@ -186,6 +199,10 @@ export default {
     this.getData()
   },
   methods: {
+    confirms() {
+      this.dialogVisible = true
+      console.log("delete!")
+    },
     onSubmit() {
       // this.axios({url:'/user/edit', method:'post',data:JSON.stringify(account),
       //   headers:{'Content-Type':'application/json'}})
